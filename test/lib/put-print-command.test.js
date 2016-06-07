@@ -37,6 +37,15 @@ suite('PutPrintCommand', () => {
         ]]);
     });
 
+    test('it prints callstack if unhandled exception happened', () => {
+        const selection = null;
+        const editor = dummyEditor(selection);
+        const workspace = dummyWorkspace();
+        const logger = {error: sinon.spy()};
+        new PutPrintCommand({editor, logger, workspace}).execute();
+        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'isEmpty' of null");
+    });
+
     function dummyEditor(selection, languageId) {
         return {
             selection: selection,
