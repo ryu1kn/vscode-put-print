@@ -1,4 +1,4 @@
-# put-print README
+# put-print
 
 ## Features
 
