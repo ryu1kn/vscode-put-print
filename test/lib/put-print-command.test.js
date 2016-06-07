@@ -72,6 +72,6 @@ suite('PutPrintCommand', () => {
         const get = sinon.stub();
         get.withArgs('printTemplate.javascript').returns("console.log('{{selection}}:', {{selection}});");
         get.withArgs('printTemplate.default').returns("_{{selection}}_");
-        return {getConfiguration: sinon.stub().returns({get})};
+        return {getConfiguration: sinon.stub().returns({get: get})};
     }
 });
