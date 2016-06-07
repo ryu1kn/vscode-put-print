@@ -1,0 +1,33 @@
+{
+  "name": "put-print",
+  "displayName": "Put Print",
+  "description": "Quickly put print statements",
+  "version": "0.1.0",
+  "publisher": "ryu1kn",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.putPrintStatement"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.putPrintStatement",
+        "title": "Put Print Statement"
+      }
+    ]
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "sinon": "^1.17.4",
+    "vscode": "^0.11.0"
+  }
+}
