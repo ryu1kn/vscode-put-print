@@ -2,7 +2,7 @@
   "name": "put-print",
   "displayName": "Put Print",
   "description": "Quickly put print statements",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "publisher": "ryu1kn",
   "engines": {
     "vscode": "^1.0.0"
@@ -15,6 +15,22 @@
   ],
   "main": "./extension",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Put Print configuration",
+      "properties": {
+        "putprint.printTemplate.javascript": {
+          "type": "string",
+          "default": "console.log('{{selection}}:', {{selection}});",
+          "description": "Print statement template for JavaScript"
+        },
+        "putprint.printTemplate.default": {
+          "type": "string",
+          "default": "{{selection}}",
+          "description": "Will be used when there is no language specific template found"
+        }
+      }
+    },
     "commands": [
       {
         "command": "extension.putPrintStatement",

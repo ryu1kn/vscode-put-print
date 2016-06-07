@@ -5,7 +5,8 @@ const PutPrintCommand = require('./lib/put-print-command');
 
 exports.activate = context => {
     const editor = vscode.window.activeTextEditor;
-    const putPrintCommand = new PutPrintCommand({editor});
+    const workspace = vscode.workspace;
+    const putPrintCommand = new PutPrintCommand({editor, workspace});
     const disposable = vscode.commands.registerCommand(
         'extension.putPrintStatement',
         putPrintCommand.execute.bind(putPrintCommand)
