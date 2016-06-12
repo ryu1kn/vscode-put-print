@@ -1,7 +1,4 @@
 
-const expect = require('chai').expect;
-const sinon = require('sinon');
-
 const PutPrintCommand = require('../../lib/put-print-command');
 
 suite('PutPrintCommand', () => {
