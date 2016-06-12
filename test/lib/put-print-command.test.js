@@ -7,9 +7,10 @@ const PutPrintCommand = require('../../lib/put-print-command');
 suite('PutPrintCommand', () => {
 
     test('it replaces the selected text with a print statement', () => {
-        const selection = {text: 'TEXT', isEmpty: false};
-        const editor = fakeEditor(selection);
-        const vscode = fakeVscode(editor);
+        const selection = {text: 'SELECTED_TEXT', isEmpty: false};
+        const templates = {javascript: "console.log('{{selection}}:', {{selection}});"};
+        const editor = fakeEditor(selection, 'javascript');
+        const vscode = fakeVscode(editor, templates);
         new PutPrintCommand({vscode}).execute();
         expect(editor.document.getText.args).to.eql([[selection]]);
         expect(editor._editBuilder.replace.args).to.eql([[
@@ -28,29 +29,28 @@ suite('PutPrintCommand', () => {
     });
 
     test('it uses the default template if there is no template specified for the current language', () => {
-        const selection = {text: 'TEXT', isEmpty: false};
+        const selection = {text: 'SELECTED_TEXT', isEmpty: false};
         const editor = fakeEditor(selection, 'UNKNOWN_LANGUAGE');
-        const vscode = fakeVscode(editor);
+        const templates = {default: '_{{selection}}_'};
+        const vscode = fakeVscode(editor, templates);
         new PutPrintCommand({vscode}).execute();
         expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[
-            selection, "_SELECTED_TEXT_"
-        ]]);
+        expect(editor._editBuilder.replace.args).to.eql([[selection, "_SELECTED_TEXT_"]]);
     });
 
-    test('it prints callstack if unhandled exception happened', () => {
-        const selection = null;
+    test('it prints callstack if unhandled exception occurred', () => {
+        const selection = {};
         const editor = fakeEditor(selection);
         const vscode = fakeVscode(editor);
         const logger = {error: sinon.spy()};
         new PutPrintCommand({vscode, logger}).execute();
-        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'isEmpty' of null");
+        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'replace' of undefined");
     });
 
-    function fakeVscode(editor) {
+    function fakeVscode(editor, templates) {
         return {
             window: {activeTextEditor: editor},
-            workspace: fakeWorkspace()
+            workspace: fakeWorkspace(templates)
         };
     }
 
@@ -58,8 +58,8 @@ suite('PutPrintCommand', () => {
         return {
             selection: selection,
             document: {
-                getText: sinon.stub().returns('SELECTED_TEXT'),
-                languageId: languageId || 'javascript'
+                getText: sinon.stub().returns(selection.text),
+                languageId: languageId
             },
             edit: function (callback) {
                 callback(this._editBuilder);
@@ -68,10 +68,12 @@ suite('PutPrintCommand', () => {
         };
     }
 
-    function fakeWorkspace() {
-        const get = sinon.stub();
-        get.withArgs('printTemplate.javascript').returns("console.log('{{selection}}:', {{selection}});");
-        get.withArgs('printTemplate.default').returns("_{{selection}}_");
-        return {getConfiguration: sinon.stub().returns({get: get})};
+    function fakeWorkspace(templates) {
+        templates = templates || {};
+        const stub = sinon.stub();
+        Object.keys(templates).forEach(languageId => {
+            stub.withArgs(`printTemplate.${languageId}`).returns(templates[languageId]);
+        });
+        return {getConfiguration: sinon.stub().returns({get: stub})};
     }
 });
