@@ -8,14 +8,13 @@ suite('PutPrintCommand', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const selection = {text: 'SELECTED_TEXT', isEmpty: false};
-        const templates = {javascript: "console.log('{{selection}}:', {{selection}});"};
+        const templates = {javascript: 'TEMPLATE'};
         const editor = fakeEditor(selection, 'javascript');
         const vscode = fakeVscode(editor, templates);
-        new PutPrintCommand({vscode}).execute();
+        const printStatementBuilder = {build: buildStub(['TEMPLATE', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
+        new PutPrintCommand({printStatementBuilder, vscode}).execute();
         expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[
-            selection, "console.log('SELECTED_TEXT:', SELECTED_TEXT);"
-        ]]);
+        expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
         expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
     });
 
@@ -31,37 +30,12 @@ suite('PutPrintCommand', () => {
     test('it uses the default template if there is no template specified for the current language', () => {
         const selection = {text: 'SELECTED_TEXT', isEmpty: false};
         const editor = fakeEditor(selection, 'UNKNOWN_LANGUAGE');
-        const templates = {default: '_{{selection}}_'};
+        const templates = {default: 'TEMPLATE'};
         const vscode = fakeVscode(editor, templates);
-        new PutPrintCommand({vscode}).execute();
+        const printStatementBuilder = {build: buildStub(['TEMPLATE', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
+        new PutPrintCommand({printStatementBuilder, vscode}).execute();
         expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[selection, "_SELECTED_TEXT_"]]);
-    });
-
-    test('it escapes the text when injecting into a template if specified', () => {
-        const selection = {text: "fn('TEXT')", isEmpty: false};
-        const templates = {javascript: "console.log('{{selection:escape}}:', {{selection}});"};
-        const editor = fakeEditor(selection, 'javascript');
-        const vscode = fakeVscode(editor, templates);
-        new PutPrintCommand({vscode}).execute();
-        expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[
-            selection, "console.log('fn(\\'TEXT\\'):', fn('TEXT'));"
-        ]]);
-        expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
-    });
-
-    test("it won't replace the variable parts more than once", () => {
-        const selection = {text: '{{selection}}{{selection}}', isEmpty: false};
-        const templates = {javascript: '{{selection:escape}}'};
-        const editor = fakeEditor(selection, 'javascript');
-        const vscode = fakeVscode(editor, templates);
-        new PutPrintCommand({vscode}).execute();
-        expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[
-            selection, "{{selection}}{{selection}}"
-        ]]);
-        expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
+        expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
     });
 
     test('it prints callstack if unhandled exception occurred', () => {
@@ -70,7 +44,7 @@ suite('PutPrintCommand', () => {
         const vscode = fakeVscode(editor);
         const logger = {error: sinon.spy()};
         new PutPrintCommand({vscode, logger}).execute();
-        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'replace' of undefined");
+        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'build' of undefined");
     });
 
     function fakeVscode(editor, templates) {
@@ -101,6 +75,19 @@ suite('PutPrintCommand', () => {
             stub.withArgs(`printTemplate.${languageId}`).returns(templates[languageId]);
         });
         return {getConfiguration: sinon.stub().returns({get: stub})};
+    }
+
+    function buildStub() {
+        'use strict';
+
+        const args = Array.prototype.slice.call(arguments);
+        const stub = sinon.stub();
+        for (let i = 0; i + 1 < args.length; i += 2) {
+            let argsI = args[i];
+            let returnI = args[i + 1];
+            stub.withArgs.apply(stub, argsI).returns(returnI);
+        }
+        return stub;
     }
 
     function getLogger() {
