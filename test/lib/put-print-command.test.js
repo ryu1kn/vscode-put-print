@@ -38,6 +38,32 @@ suite('PutPrintCommand', () => {
         expect(editor._editBuilder.replace.args).to.eql([[selection, "_SELECTED_TEXT_"]]);
     });
 
+    test('it escapes the text when injecting into a template if specified', () => {
+        const selection = {text: "fn('TEXT')", isEmpty: false};
+        const templates = {javascript: "console.log('{{selection:escape}}:', {{selection}});"};
+        const editor = fakeEditor(selection, 'javascript');
+        const vscode = fakeVscode(editor, templates);
+        new PutPrintCommand({vscode}).execute();
+        expect(editor.document.getText.args).to.eql([[selection]]);
+        expect(editor._editBuilder.replace.args).to.eql([[
+            selection, "console.log('fn(\\'TEXT\\'):', fn('TEXT'));"
+        ]]);
+        expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
+    });
+
+    test("it won't replace the variable parts more than once", () => {
+        const selection = {text: '{{selection}}{{selection}}', isEmpty: false};
+        const templates = {javascript: '{{selection:escape}}'};
+        const editor = fakeEditor(selection, 'javascript');
+        const vscode = fakeVscode(editor, templates);
+        new PutPrintCommand({vscode}).execute();
+        expect(editor.document.getText.args).to.eql([[selection]]);
+        expect(editor._editBuilder.replace.args).to.eql([[
+            selection, "{{selection}}{{selection}}"
+        ]]);
+        expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
+    });
+
     test('it prints callstack if unhandled exception occurred', () => {
         const selection = {};
         const editor = fakeEditor(selection);
@@ -75,5 +101,9 @@ suite('PutPrintCommand', () => {
             stub.withArgs(`printTemplate.${languageId}`).returns(templates[languageId]);
         });
         return {getConfiguration: sinon.stub().returns({get: stub})};
+    }
+
+    function getLogger() {
+        return console;
     }
 });
