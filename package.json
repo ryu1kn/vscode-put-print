@@ -26,6 +26,12 @@
         },
         "putprint.printTemplate.javascript.escape": {
           "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "default": [
             [
               "'",

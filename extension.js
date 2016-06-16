@@ -9,8 +9,8 @@ exports.activate = context => {
     const printStatementBuilder = new PrintStatementBuilder();
     const templateConfigProvider = new TemplateConfigProvider({workspace: vscode.workspace});
     const logger = console;
-    const putPrintCommand = new PutPrintCommand({printStatementBuilder, templateConfigProvider, vscode, logger});   // eslint-disable-line max-len
-    const disposable = vscode.commands.registerCommand(
+    const putPrintCommand = new PutPrintCommand({printStatementBuilder, templateConfigProvider, logger});
+    const disposable = vscode.commands.registerTextEditorCommand(
         'extension.putPrintStatement',
         putPrintCommand.execute.bind(putPrintCommand)
     );

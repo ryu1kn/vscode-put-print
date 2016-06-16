@@ -5,13 +5,11 @@ suite('PutPrintCommand', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const selection = {text: 'SELECTED_TEXT', isEmpty: false};
-        const templates = {javascript: 'TEMPLATE'};
         const editor = fakeEditor(selection, 'KNOWN_LANGUGAGE');
-        const vscode = fakeVscode(editor, templates);
         const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')};
         const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
         const logger = getLogger();
-        new PutPrintCommand({printStatementBuilder, templateConfigProvider, vscode, logger}).execute();
+        new PutPrintCommand({printStatementBuilder, templateConfigProvider, logger}).execute(editor);
         expect(editor.document.getText.args).to.eql([[selection]]);
         expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
     });
@@ -19,28 +17,18 @@ suite('PutPrintCommand', () => {
     test('it does nothing if text is not selected', () => {
         const selection = {text: '', isEmpty: true};
         const editor = fakeEditor(selection);
-        const vscode = fakeVscode(editor);
-        new PutPrintCommand({vscode}).execute();
+        new PutPrintCommand({}).execute(editor);
         expect(editor.document.getText.callCount).to.eql(0);
         expect(editor._editBuilder.replace.callCount).to.eql(0);
     });
 
     test('it prints callstack if unhandled exception occurred', () => {
         const selection = {};
-        const editor = fakeEditor(selection);
-        const vscode = fakeVscode(editor);
         const templateConfigProvider = {get: sinon.stub().throws(new Error('TEMPLATE_CONFIG_PROVIDER_ERROR'))};
         const logger = {error: sinon.spy()};
-        new PutPrintCommand({templateConfigProvider, vscode, logger}).execute();
+        new PutPrintCommand({templateConfigProvider, logger}).execute(fakeEditor(selection));
         expect(logger.error.args[0][0]).to.have.string('Error: TEMPLATE_CONFIG_PROVIDER_ERROR');
     });
-
-    function fakeVscode(editor, templates) {
-        return {
-            window: {activeTextEditor: editor},
-            workspace: fakeWorkspace(templates)
-        };
-    }
 
     function fakeEditor(selection, languageId) {
         return {
@@ -54,15 +42,6 @@ suite('PutPrintCommand', () => {
             },
             _editBuilder: {replace: sinon.spy()}
         };
-    }
-
-    function fakeWorkspace(templates) {
-        templates = templates || {};
-        const stub = sinon.stub();
-        Object.keys(templates).forEach(languageId => {
-            stub.withArgs(`printTemplate.${languageId}`).returns(templates[languageId]);
-        });
-        return {getConfiguration: sinon.stub().returns({get: stub})};
     }
 
     function stubWithArgs() {
