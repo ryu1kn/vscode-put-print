@@ -8,7 +8,7 @@ suite('PutPrintCommand', () => {
         const templates = {javascript: 'TEMPLATE'};
         const editor = fakeEditor(selection, 'KNOWN_LANGUGAGE');
         const vscode = fakeVscode(editor, templates);
-        const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')}
+        const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')};
         const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
         const logger = getLogger();
         new PutPrintCommand({printStatementBuilder, templateConfigProvider, vscode, logger}).execute();
