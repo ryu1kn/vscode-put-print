@@ -33,10 +33,8 @@
             }
           },
           "default": [
-            [
-              "'",
-              "\\'"
-            ]
+            ["'", "\\'"],
+            ["\\", "\\\\"]
           ],
           "description": "Print statement template for JavaScript"
         },
