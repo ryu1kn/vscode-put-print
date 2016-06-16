@@ -19,12 +19,17 @@
       "type": "object",
       "title": "Put Print configuration",
       "properties": {
-        "putprint.printTemplate.javascript": {
+        "putprint.printTemplate.javascript.template": {
           "type": "string",
-          "default": "console.log('{{selection}}:', {{selection}});",
+          "default": "console.log('{{selection:escape}}:', {{selection}});",
           "description": "Print statement template for JavaScript"
         },
-        "putprint.printTemplate.default": {
+        "putprint.printTemplate.javascript.escape": {
+          "type": "array",
+          "default": [["'", "\\'"]],
+          "description": "Print statement template for JavaScript"
+        },
+        "putprint.printTemplate.default.template": {
           "type": "string",
           "default": "{{selection}}",
           "description": "Will be used when there is no language specific template found"

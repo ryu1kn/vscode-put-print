@@ -6,13 +6,14 @@ suite('PutPrintCommand', () => {
     test('it replaces the selected text with a print statement', () => {
         const selection = {text: 'SELECTED_TEXT', isEmpty: false};
         const templates = {javascript: 'TEMPLATE'};
-        const editor = fakeEditor(selection, 'javascript');
+        const editor = fakeEditor(selection, 'KNOWN_LANGUGAGE');
         const vscode = fakeVscode(editor, templates);
-        const printStatementBuilder = {build: buildStub(['TEMPLATE', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
-        new PutPrintCommand({printStatementBuilder, vscode}).execute();
+        const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')}
+        const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
+        const logger = getLogger();
+        new PutPrintCommand({printStatementBuilder, templateConfigProvider, vscode, logger}).execute();
         expect(editor.document.getText.args).to.eql([[selection]]);
         expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
-        expect(vscode.workspace.getConfiguration.args).to.eql([['putprint']]);
     });
 
     test('it does nothing if text is not selected', () => {
@@ -24,24 +25,14 @@ suite('PutPrintCommand', () => {
         expect(editor._editBuilder.replace.callCount).to.eql(0);
     });
 
-    test('it uses the default template if there is no template specified for the current language', () => {
-        const selection = {text: 'SELECTED_TEXT', isEmpty: false};
-        const editor = fakeEditor(selection, 'UNKNOWN_LANGUAGE');
-        const templates = {default: 'TEMPLATE'};
-        const vscode = fakeVscode(editor, templates);
-        const printStatementBuilder = {build: buildStub(['TEMPLATE', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
-        new PutPrintCommand({printStatementBuilder, vscode}).execute();
-        expect(editor.document.getText.args).to.eql([[selection]]);
-        expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
-    });
-
     test('it prints callstack if unhandled exception occurred', () => {
         const selection = {};
         const editor = fakeEditor(selection);
         const vscode = fakeVscode(editor);
+        const templateConfigProvider = {get: sinon.stub().throws(new Error('TEMPLATE_CONFIG_PROVIDER_ERROR'))};
         const logger = {error: sinon.spy()};
-        new PutPrintCommand({vscode, logger}).execute();
-        expect(logger.error.args[0][0]).to.have.string("TypeError: Cannot read property 'build' of undefined");
+        new PutPrintCommand({templateConfigProvider, vscode, logger}).execute();
+        expect(logger.error.args[0][0]).to.have.string('Error: TEMPLATE_CONFIG_PROVIDER_ERROR');
     });
 
     function fakeVscode(editor, templates) {
@@ -74,15 +65,13 @@ suite('PutPrintCommand', () => {
         return {getConfiguration: sinon.stub().returns({get: stub})};
     }
 
-    function buildStub() {
+    function stubWithArgs() {
         'use strict';
 
         const args = Array.prototype.slice.call(arguments);
         const stub = sinon.stub();
         for (let i = 0; i + 1 < args.length; i += 2) {
-            let argsI = args[i];
-            let returnI = args[i + 1];
-            stub.withArgs.apply(stub, argsI).returns(returnI);
+            stub.withArgs.apply(stub, args[i]).returns(args[i + 1]);
         }
         return stub;
     }
