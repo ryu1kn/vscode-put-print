@@ -11,7 +11,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.putPrintStatement"
+    "onCommand:extension.putPrintStatement",
+    "onCommand:extension.saveText"
   ],
   "main": "./extension",
   "contributes": {
@@ -49,6 +50,10 @@
       {
         "command": "extension.putPrintStatement",
         "title": "Put Print Statement"
+      },
+      {
+        "command": "extension.saveText",
+        "title": "Save selected text for composing print statement"
       }
     ]
   },

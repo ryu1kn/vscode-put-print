@@ -3,38 +3,41 @@ const App = require('../../lib/app');
 
 suite('App', () => {
 
-    test('it replaces the selected text with a print statement', () => {
-        const selection = {text: 'SELECTED_TEXT', isEmpty: false};
-        const editor = fakeEditor(selection, 'KNOWN_LANGUGAGE');
-        const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')};
-        const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
+    suite('#saveText', () => {
+
+        test('saves selected text to a buffer', () => {
+            const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
+            const textBuffer = {write: sinon.spy()};
+            new App({textBuffer}).saveText(editor);
+        });
+    });
+
+    test('it replaces the selected text with a print statement composed from saved text', () => {
+        const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
+        const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
+        const templateConfigProvider = {get: stubWithArgs(['LANGUAGE_ID'], 'LANGUAGE_CONFIG')};
+        const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SAVED_TEXT'], 'PRINT_STATEMENT')};
+        const textBuffer = {read: sinon.stub().returns('SAVED_TEXT')};
         const logger = getLogger();
-        new App({printStatementBuilder, templateConfigProvider, logger}).execute(editor);
-        expect(editor.document.getText.args).to.eql([[selection]]);
+        new App({printStatementBuilder, templateConfigProvider, textBuffer, logger}).putPrintStatement(editor);
         expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
     });
 
-    test('it does nothing if text is not selected', () => {
-        const selection = {text: '', isEmpty: true};
-        const editor = fakeEditor(selection);
-        new App({}).execute(editor);
-        expect(editor.document.getText.callCount).to.eql(0);
-        expect(editor._editBuilder.replace.callCount).to.eql(0);
-    });
-
     test('it prints callstack if unhandled exception occurred', () => {
-        const selection = {};
         const templateConfigProvider = {get: sinon.stub().throws(new Error('TEMPLATE_CONFIG_PROVIDER_ERROR'))};
         const logger = {error: sinon.spy()};
-        new App({templateConfigProvider, logger}).execute(fakeEditor(selection));
+        new App({templateConfigProvider, logger}).putPrintStatement(fakeEditor('SELECTED_TEXT'));
         expect(logger.error.args[0][0]).to.have.string('Error: TEMPLATE_CONFIG_PROVIDER_ERROR');
     });
 
-    function fakeEditor(selection, languageId) {
+    function fakeEditor(selectedText, languageId) {
         return {
-            selection: selection,
+            selection: {
+                text: selectedText,
+                isEmpty: !selectedText
+            },
             document: {
-                getText: sinon.stub().returns(selection.text),
+                getText: sinon.stub().returns(selectedText),
                 languageId: languageId
             },
             edit: function (callback) {
