@@ -1,7 +1,7 @@
 
-const PutPrintCommand = require('../../lib/put-print-command');
+const App = require('../../lib/app');
 
-suite('PutPrintCommand', () => {
+suite('App', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const selection = {text: 'SELECTED_TEXT', isEmpty: false};
@@ -9,7 +9,7 @@ suite('PutPrintCommand', () => {
         const templateConfigProvider = {get: stubWithArgs(['KNOWN_LANGUGAGE'], 'LANGUAGE_CONFIG')};
         const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SELECTED_TEXT'], 'PRINT_STATEMENT')};
         const logger = getLogger();
-        new PutPrintCommand({printStatementBuilder, templateConfigProvider, logger}).execute(editor);
+        new App({printStatementBuilder, templateConfigProvider, logger}).execute(editor);
         expect(editor.document.getText.args).to.eql([[selection]]);
         expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
     });
@@ -17,7 +17,7 @@ suite('PutPrintCommand', () => {
     test('it does nothing if text is not selected', () => {
         const selection = {text: '', isEmpty: true};
         const editor = fakeEditor(selection);
-        new PutPrintCommand({}).execute(editor);
+        new App({}).execute(editor);
         expect(editor.document.getText.callCount).to.eql(0);
         expect(editor._editBuilder.replace.callCount).to.eql(0);
     });
@@ -26,7 +26,7 @@ suite('PutPrintCommand', () => {
         const selection = {};
         const templateConfigProvider = {get: sinon.stub().throws(new Error('TEMPLATE_CONFIG_PROVIDER_ERROR'))};
         const logger = {error: sinon.spy()};
-        new PutPrintCommand({templateConfigProvider, logger}).execute(fakeEditor(selection));
+        new App({templateConfigProvider, logger}).execute(fakeEditor(selection));
         expect(logger.error.args[0][0]).to.have.string('Error: TEMPLATE_CONFIG_PROVIDER_ERROR');
     });
 
