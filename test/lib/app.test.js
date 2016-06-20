@@ -51,18 +51,28 @@ suite('App', () => {
         });
     });
 
-    // suite('#resetCounter', () => {
+    suite('#resetCounter', () => {
 
-    //     test('it resets the counter value with what counterInputBox returns', () => {
-    //         const logger = getLogger();
-    //         const counter = {reset: sinon.spy()};
-    //         const counterInputBox = {read: sinon.stub().returns(24)};
-    //         const app = new App({counter, counterInputBox, logger});
-    //         return app.resetCounter().then(() => {
-    //             expect(counter.reset).to.eql(24);
-    //         });
-    //     });
-    // });
+        test('it resets the counter value with what counterInputBox returns', () => {
+            const logger = getLogger();
+            const printStatementCounter = {reset: sinon.spy()};
+            const counterInputBox = {read: sinon.stub().returns(Promise.resolve(24))};
+            const app = new App({printStatementCounter, counterInputBox, logger});
+            return app.resetCounter().then(() => {
+                expect(printStatementCounter.reset).to.have.been.calledWith(24);
+            });
+        });
+
+        test('it does not reset the counter if counterInputBox returns non-number', () => {
+            const logger = getLogger();
+            const printStatementCounter = {reset: sinon.spy()};
+            const counterInputBox = {read: sinon.stub().returns(Promise.resolve(null))};
+            const app = new App({printStatementCounter, counterInputBox, logger});
+            return app.resetCounter().then(() => {
+                expect(printStatementCounter.reset).to.have.been.not.called;
+            });
+        });
+    });
 
     function fakeEditor(selectedText, languageId) {
         return {
