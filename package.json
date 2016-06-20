@@ -34,8 +34,14 @@
             }
           },
           "default": [
-            ["'", "\\'"],
-            ["\\", "\\\\"]
+            [
+              "'",
+              "\\'"
+            ],
+            [
+              "\\",
+              "\\\\"
+            ]
           ],
           "description": "Print statement template for JavaScript"
         },
@@ -69,6 +75,7 @@
     "eslint-config-xo": "^0.15.0",
     "mocha": "^2.5.3",
     "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
     "vscode": "^0.11.0"
   }
 }
