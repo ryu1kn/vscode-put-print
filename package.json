@@ -11,8 +11,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.putPrintStatement",
-    "onCommand:extension.saveText"
+    "onCommand:extension.putprint.putPrintStatement",
+    "onCommand:extension.putprint.saveText"
   ],
   "main": "./extension",
   "contributes": {
@@ -22,7 +22,7 @@
       "properties": {
         "putprint.printTemplate.javascript.template": {
           "type": "string",
-          "default": "console.log('{{selection:escape}}:', {{selection}});",
+          "default": "console.log('{{selection|escape}}:', {{selection}});",
           "description": "Print statement template for JavaScript"
         },
         "putprint.printTemplate.javascript.escape": {
@@ -54,12 +54,12 @@
     },
     "commands": [
       {
-        "command": "extension.putPrintStatement",
-        "title": "Put Print Statement"
+        "command": "extension.putprint.putPrintStatement",
+        "title": "PutPrint: Put Print Statement"
       },
       {
-        "command": "extension.saveText",
-        "title": "Save selected text for composing print statement"
+        "command": "extension.putprint.saveText",
+        "title": "PutPrint: Save selected text for composing print statement"
       }
     ]
   },

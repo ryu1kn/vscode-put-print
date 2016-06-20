@@ -12,9 +12,9 @@ suite('PrintStatementBuilder', () => {
         expect(printStatement).to.eql("console.log('SELECTED_TEXT:', SELECTED_TEXT);");
     });
 
-    test('it escapes the text when injecting into a template if ":escape" is specified', () => {
+    test('it escapes the text when injecting into a template if "|escape" is specified', () => {
         const templateConfig = {
-            template: "console.log('{{selection:escape}}:', {{selection}});",
+            template: "console.log('{{selection|escape}}:', {{selection}});",
             escape: [["'", "\\'"]]
         };
         const selectedText = "fn('TEXT')";
@@ -24,7 +24,7 @@ suite('PrintStatementBuilder', () => {
 
     test("it won't replace the variable parts more than once", () => {
         const templateConfig = {
-            template: '{{selection:escape}}',
+            template: '{{selection|escape}}',
             escape: [["'", "\\'"]]
         };
         const selectedText = '{{selection}}{{selection}}';
