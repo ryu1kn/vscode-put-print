@@ -51,6 +51,19 @@ suite('App', () => {
         });
     });
 
+    // suite('#resetCounter', () => {
+
+    //     test('it resets the counter value with what counterInputBox returns', () => {
+    //         const logger = getLogger();
+    //         const counter = {reset: sinon.spy()};
+    //         const counterInputBox = {read: sinon.stub().returns(24)};
+    //         const app = new App({counter, counterInputBox, logger});
+    //         return app.resetCounter().then(() => {
+    //             expect(counter.reset).to.eql(24);
+    //         });
+    //     });
+    // });
+
     function fakeEditor(selectedText, languageId) {
         return {
             selection: {

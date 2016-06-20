@@ -8,7 +8,8 @@ suite('PrintStatementBuilder', () => {
             template: "console.log('{{selection}}:', {{selection}});"
         };
         const selectedText = 'SELECTED_TEXT';
-        const printStatement = new PrintStatementBuilder().build(templateConfig, selectedText);
+        const printStatementCounter = {getAndIncrement: () => 0};
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(templateConfig, selectedText);
         expect(printStatement).to.eql("console.log('SELECTED_TEXT:', SELECTED_TEXT);");
     });
 
@@ -18,7 +19,8 @@ suite('PrintStatementBuilder', () => {
             escape: [["'", "\\'"]]
         };
         const selectedText = "fn('TEXT')";
-        const printStatement = new PrintStatementBuilder().build(templateConfig, selectedText);
+        const printStatementCounter = {getAndIncrement: () => 0};
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(templateConfig, selectedText);
         expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
@@ -28,7 +30,16 @@ suite('PrintStatementBuilder', () => {
             escape: [["'", "\\'"]]
         };
         const selectedText = '{{selection}}{{selection}}';
-        const printStatement = new PrintStatementBuilder().build(templateConfig, selectedText);
+        const printStatementCounter = {getAndIncrement: () => 0};
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(templateConfig, selectedText);
         expect(printStatement).to.eql('{{selection}}{{selection}}');
+    });
+
+    test('it replaces {{count}} placeholder in the template with a count value', () => {
+        const templateConfig = {template: 'DEBUG-{{count}}'};
+        const printStatementCounter = {getAndIncrement: () => 4};
+        const printStatementBuilder = new PrintStatementBuilder({printStatementCounter});
+        const printStatement = printStatementBuilder.build(templateConfig, 'SELECTED_TEXT');
+        expect(printStatement).to.eql('DEBUG-4');
     });
 });

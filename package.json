@@ -22,7 +22,7 @@
       "properties": {
         "putprint.printStatement.javascript.template": {
           "type": "string",
-          "default": "console.log('{{selection|escape}}:', {{selection}})",
+          "default": "console.log('{{count}}: {{selection|escape}}:', {{selection}})",
           "description": "Print statement template for JavaScript"
         },
         "putprint.printStatement.javascript.escape": {
@@ -47,7 +47,7 @@
         },
         "putprint.printStatement.ruby.template": {
           "type": "string",
-          "default": "print(\"{{selection|escape}}:\", {{selection}})",
+          "default": "print(\"{{count}}: {{selection|escape}}:\", {{selection}})",
           "description": "Print statement template for Ruby"
         },
         "putprint.printStatement.ruby.escape": {
