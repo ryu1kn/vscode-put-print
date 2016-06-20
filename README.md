@@ -10,8 +10,8 @@ You can specify language specific print statement format in your config.
 
 This extension contributes the following settings:
 
-* `putprint.printTemplate.javascript`: Print statement template for JavaScript
-* `putprint.printTemplate.default`: Will be used when there is no language specific template found
+* `putprint.printStatement.javascript`: Print statement template for JavaScript
+* `putprint.printStatement.default`: Will be used when there is no language specific template found
 
 ## Release Notes
 

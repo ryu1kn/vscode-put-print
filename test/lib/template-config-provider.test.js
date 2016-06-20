@@ -21,7 +21,7 @@ suite('TemplateConfigProvider', () => {
         templates = templates || {};
         const stub = sinon.stub();
         Object.keys(templates).forEach(languageId => {
-            stub.withArgs(`printTemplate.${languageId}`).returns(templates[languageId]);
+            stub.withArgs(`printStatement.${languageId}`).returns(templates[languageId]);
         });
         return {getConfiguration: sinon.stub().returns({get: stub})};
     }

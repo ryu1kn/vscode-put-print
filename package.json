@@ -20,12 +20,12 @@
       "type": "object",
       "title": "Put Print configuration",
       "properties": {
-        "putprint.printTemplate.javascript.template": {
+        "putprint.printStatement.javascript.template": {
           "type": "string",
-          "default": "console.log('{{selection|escape}}:', {{selection}});",
+          "default": "console.log('{{selection|escape}}:', {{selection}})",
           "description": "Print statement template for JavaScript"
         },
-        "putprint.printTemplate.javascript.escape": {
+        "putprint.printStatement.javascript.escape": {
           "type": "array",
           "items": {
             "type": "array",
@@ -43,9 +43,34 @@
               "\\\\"
             ]
           ],
-          "description": "Print statement template for JavaScript"
+          "description": "Set of pairs of sequences to escape text"
         },
-        "putprint.printTemplate.default.template": {
+        "putprint.printStatement.ruby.template": {
+          "type": "string",
+          "default": "print(\"{{selection|escape}}:\", {{selection}})",
+          "description": "Print statement template for Ruby"
+        },
+        "putprint.printStatement.ruby.escape": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "default": [
+            [
+              "\"",
+              "\\\""
+            ],
+            [
+              "\\",
+              "\\\\"
+            ]
+          ],
+          "description": "Set of pairs of sequences to escape text"
+        },
+        "putprint.printStatement.default.template": {
           "type": "string",
           "default": "{{selection}}",
           "description": "Will be used when there is no language specific template found"
