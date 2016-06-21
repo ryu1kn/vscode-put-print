@@ -1,5 +1,5 @@
 {
-  "name": "put-print",
+  "name": "putprint",
   "displayName": "Put Print",
   "description": "Quickly put print statements",
   "version": "0.0.1",
@@ -11,9 +11,9 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.putprint.putPrintStatement",
-    "onCommand:extension.putprint.resetCounter",
-    "onCommand:extension.putprint.saveText"
+    "onCommand:putprint.putPrintStatement",
+    "onCommand:putprint.resetCounter",
+    "onCommand:putprint.saveText"
   ],
   "main": "./extension",
   "contributes": {
@@ -80,15 +80,15 @@
     },
     "commands": [
       {
-        "command": "extension.putprint.putPrintStatement",
+        "command": "putprint.putPrintStatement",
         "title": "PutPrint: Put Print Statement"
       },
       {
-        "command": "extension.putprint.resetCounter",
+        "command": "putprint.resetCounter",
         "title": "PutPrint: Reset Counter"
       },
       {
-        "command": "extension.putprint.saveText",
+        "command": "putprint.saveText",
         "title": "PutPrint: Save Selected Text for Composing Print Statement"
       }
     ]
