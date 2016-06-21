@@ -26,7 +26,7 @@
           "default": "console.log('{{count}}: {{selection|escape}}:', {{selection}})",
           "description": "Print statement template for JavaScript"
         },
-        "putprint.printStatement.javascript.escape": {
+        "putprint.printStatement.javascript.escapeRules": {
           "type": "array",
           "items": {
             "type": "array",
@@ -44,14 +44,14 @@
               "\\\\"
             ]
           ],
-          "description": "Set of pairs of sequences to escape text"
+          "description": "List of escape rules for JavaScript"
         },
         "putprint.printStatement.ruby.template": {
           "type": "string",
           "default": "print(\"{{count}}: {{selection|escape}}:\", {{selection}})",
           "description": "Print statement template for Ruby"
         },
-        "putprint.printStatement.ruby.escape": {
+        "putprint.printStatement.ruby.escapeRules": {
           "type": "array",
           "items": {
             "type": "array",
@@ -69,7 +69,7 @@
               "\\\\"
             ]
           ],
-          "description": "Set of pairs of sequences to escape text"
+          "description": "List of escape rules for Ruby"
         },
         "putprint.printStatement.default.template": {
           "type": "string",

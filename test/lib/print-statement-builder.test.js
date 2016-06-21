@@ -16,7 +16,7 @@ suite('PrintStatementBuilder', () => {
     test('it escapes the text when injecting into a template if "|escape" is specified', () => {
         const templateConfig = {
             template: "console.log('{{selection|escape}}:', {{selection}});",
-            escape: [["'", "\\'"]]
+            escapeRules: [["'", "\\'"]]
         };
         const selectedText = "fn('TEXT')";
         const printStatementCounter = {getAndIncrement: () => 0};
@@ -27,7 +27,7 @@ suite('PrintStatementBuilder', () => {
     test("it won't replace the variable parts more than once", () => {
         const templateConfig = {
             template: '{{selection|escape}}',
-            escape: [["'", "\\'"]]
+            escapeRules: [["'", "\\'"]]
         };
         const selectedText = '{{selection}}{{selection}}';
         const printStatementCounter = {getAndIncrement: () => 0};
