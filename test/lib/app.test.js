@@ -17,11 +17,11 @@ suite('App', () => {
         test('it replaces the selected text with a print statement composed from saved text', () => {
             const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
-            const templateConfigProvider = {get: stubWithArgs(['LANGUAGE_ID'], 'LANGUAGE_CONFIG')};
+            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID'], 'LANGUAGE_CONFIG')};
             const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SAVED_TEXT'], 'PRINT_STATEMENT')};
             const textBuffer = {read: sinon.stub().returns('SAVED_TEXT')};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, templateConfigProvider, textBuffer, logger});
+            const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });
@@ -29,14 +29,14 @@ suite('App', () => {
 
         test("it doesn't do anything if text has not been saved", () => {
             const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
-            const templateConfigProvider = {get: sinon.spy()};
+            const printStatementConfigService = {get: sinon.spy()};
             const printStatementBuilder = {build: sinon.spy()};
             const textBuffer = {read: () => {}};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, templateConfigProvider, textBuffer, logger});
+            const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace).to.have.been.not.called;
-                expect(templateConfigProvider.get).to.have.been.not.called;
+                expect(printStatementConfigService.get).to.have.been.not.called;
                 expect(printStatementBuilder.build).to.have.been.not.called;
             });
         });
