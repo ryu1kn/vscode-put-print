@@ -4,11 +4,26 @@
   "description": "Quickly put print statements",
   "version": "0.0.1",
   "publisher": "ryu1kn",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "icon": "",
+  "bugs": {
+    "url": "https://github.com/ryu1kn/vscode-put-print/issues"
+  },
+  "homepage": "https://github.com/ryu1kn/vscode-put-print/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ryu1kn/vscode-put-print.git"
+  },
   "engines": {
     "vscode": "^1.0.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "vscode",
+    "debug",
+    "print"
   ],
   "activationEvents": [
     "onCommand:putprint.putPrintStatement",
