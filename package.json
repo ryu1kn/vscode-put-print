@@ -13,7 +13,7 @@
   "activationEvents": [
     "onCommand:putprint.putPrintStatement",
     "onCommand:putprint.resetCounter",
-    "onCommand:putprint.saveText"
+    "onCommand:putprint.selectExpression"
   ],
   "main": "./extension",
   "contributes": {
@@ -44,7 +44,7 @@
               "\\\\"
             ]
           ],
-          "description": "List of escape rules for JavaScript"
+          "description": "List of escape rules for JavaScript template"
         },
         "putprint.printStatement.ruby.template": {
           "type": "string",
@@ -69,11 +69,11 @@
               "\\\\"
             ]
           ],
-          "description": "List of escape rules for Ruby"
+          "description": "List of escape rules for Ruby template"
         },
         "putprint.printStatement.default.template": {
           "type": "string",
-          "default": "{{selection}}",
+          "default": "# {{selection}}",
           "description": "Will be used when there is no language specific template found"
         }
       }
@@ -88,8 +88,8 @@
         "title": "PutPrint: Reset Counter"
       },
       {
-        "command": "putprint.saveText",
-        "title": "PutPrint: Save Selected Text for Composing Print Statement"
+        "command": "putprint.selectExpression",
+        "title": "PutPrint: Select Expression for Composing Print Statement"
       }
     ]
   },

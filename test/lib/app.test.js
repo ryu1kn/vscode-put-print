@@ -3,12 +3,12 @@ const App = require('../../lib/app');
 
 suite('App', () => {
 
-    suite('#saveText', () => {
+    suite('#selectExpression', () => {
 
         test('saves selected text to a buffer', () => {
             const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
             const textBuffer = {write: sinon.spy()};
-            new App({textBuffer}).saveText(editor);
+            new App({textBuffer}).selectExpression(editor);
         });
     });
 
