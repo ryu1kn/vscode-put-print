@@ -4,9 +4,9 @@ const PrintStatementConfigService = require('../../lib/print-statement-config-se
 suite('PrintStatementConfigService', () => {
 
     test('it returns a template config for the specified language', () => {
-        const config = {javascript: {template: 'TEMPLATE', escapeRules: 'ESCAPE'}};
+        const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE', escapeRules: 'ESCAPE'}};
         const workspace = fakeWorkspace(config);
-        const printStatementConfig = new PrintStatementConfigService({workspace}).get('javascript');
+        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE');
         expect(printStatementConfig).to.eql({template: 'TEMPLATE', escapeRules: 'ESCAPE'});
     });
 
@@ -15,6 +15,23 @@ suite('PrintStatementConfigService', () => {
         const workspace = fakeWorkspace(config);
         const printStatementConfig = new PrintStatementConfigService({workspace}).get('UNKNOWN_LANGUAGE');
         expect(printStatementConfig).to.eql({template: 'TEMPLATE', escapeRules: 'ESCAPE'});
+    });
+
+    test('it sets an empty list for escapeRules if it is not specified', () => {
+        const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE'}};
+        const workspace = fakeWorkspace(config);
+        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE');
+        expect(printStatementConfig).to.eql({template: 'TEMPLATE', escapeRules: []});
+    });
+
+    test('it returns default config instead of the one for the specific if template string is not given', () => {
+        const config = {
+            KNOWN_LANGUAGE: {template: null},
+            default: {template: 'DEFAULT_TEMPLATE'}
+        };
+        const workspace = fakeWorkspace(config);
+        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE');
+        expect(printStatementConfig).to.eql({template: 'DEFAULT_TEMPLATE', escapeRules: []});
     });
 
     function fakeWorkspace(templates) {

@@ -5,7 +5,8 @@ suite('PrintStatementBuilder', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const printStatementConfig = {
-            template: "console.log('{{selection}}:', {{selection}});"
+            template: "console.log('{{selection}}:', {{selection}});",
+            escapeRules: []
         };
         const selectedText = 'SELECTED_TEXT';
         const printStatementCounter = {getAndIncrement: () => 0};
@@ -36,7 +37,10 @@ suite('PrintStatementBuilder', () => {
     });
 
     test('it replaces {{count}} placeholder in the template with a count value', () => {
-        const printStatementConfig = {template: 'DEBUG-{{count}}'};
+        const printStatementConfig = {
+            template: 'DEBUG-{{count}}',
+            escapeRules: []
+        };
         const printStatementCounter = {getAndIncrement: () => 4};
         const printStatementBuilder = new PrintStatementBuilder({printStatementCounter});
         const printStatement = printStatementBuilder.build(printStatementConfig, 'SELECTED_TEXT');
