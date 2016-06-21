@@ -4,7 +4,20 @@
 
 Quickly insert print statements into your source code.
 
-You can specify language specific print statement format in your config.
+![Put print statement](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/put-print-statement.gif)
+
+Escape certain sequences when converting the selected expression into a print statement.
+
+![Put print with escape](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/print-statement-with-escape.gif)
+
+Specify print statement template per language.
+
+![Put print by language](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/print-statement-by-language.gif)
+
+Put sequence number to your print statements.
+
+![Put print with counter](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/print-statement-with-counter.gif)
+
 
 ## Commands
 

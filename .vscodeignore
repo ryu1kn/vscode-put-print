@@ -1,6 +1,7 @@
 .vscode/**
 typings/**
 test/**
+images/animations/**
 .gitignore
 .editorconfig
 .eslintrc.yaml
