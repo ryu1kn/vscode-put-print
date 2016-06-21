@@ -78,6 +78,18 @@
         }
       }
     },
+    "keybindings": [
+      {
+          "command": "putprint.putPrintStatement",
+          "key": "ctrl+r p",
+          "when": "editorTextFocus"
+      },
+      {
+          "command": "putprint.selectExpression",
+          "key": "ctrl+r s",
+          "when": "editorTextFocus"
+      }
+    ],
     "commands": [
       {
         "command": "putprint.putPrintStatement",
