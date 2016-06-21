@@ -33,14 +33,14 @@ You can specify a template for a print statement per language.
 For example, if you want to specify a print statement for javascript, you could have following entries in your "User/Workspace Settings".
 
 ```json
-  "putprint.printStatement.javascript.template": "console.log('{{selection|escape}}:', {{selection}})",
+  "putprint.printStatement.javascript.template": "console.log('{{selectedExpression|escape}}:', {{selectedExpression}})",
   "putprint.printStatement.javascript.escapeRules": [["'", "\\'"], ["\\", "\\\\"]],
 ```
 
 `{{KEYWORD}}` is for a placeholder to inject a certain value. Currently, there are:
 
-* `{{selection}}`: Replaced with the expression you selected with "PutPrint: Select Expression ..." command
-* `{{selection|escape}}`: Same with `{{selection}}` but the result will be escaped by the rules supplied as "escapeRules"
+* `{{selectedExpression}}`: Replaced with the expression you selected with "PutPrint: Select Expression ..." command
+* `{{selectedExpression|escape}}`: Same with `{{selectedExpression}}` but the result will be escaped by the rules supplied as "escapeRules"
 * `{{count}}`: Replaced with counter value which is incremented every time you put print statement
 
 If you don't have a print statement setting for the editor you're working on, default template will be used.

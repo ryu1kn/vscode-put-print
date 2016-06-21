@@ -38,7 +38,7 @@
       "properties": {
         "putprint.printStatement.javascript.template": {
           "type": "string",
-          "default": "console.log('{{count}}: {{selection|escape}}:', {{selection}})",
+          "default": "console.log('{{count}}: {{selectedExpression|escape}}:', {{selectedExpression}})",
           "description": "Print statement template for JavaScript"
         },
         "putprint.printStatement.javascript.escapeRules": {
@@ -63,7 +63,7 @@
         },
         "putprint.printStatement.ruby.template": {
           "type": "string",
-          "default": "print(\"{{count}}: {{selection|escape}}:\", {{selection}})",
+          "default": "print(\"{{count}}: {{selectedExpression|escape}}:\", {{selectedExpression}})",
           "description": "Print statement template for Ruby"
         },
         "putprint.printStatement.ruby.escapeRules": {
@@ -88,7 +88,7 @@
         },
         "putprint.printStatement.default.template": {
           "type": "string",
-          "default": "# {{selection}}",
+          "default": "# {{selectedExpression}}",
           "description": "Will be used when there is no language specific template found"
         }
       }

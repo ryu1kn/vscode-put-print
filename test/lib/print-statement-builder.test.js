@@ -5,7 +5,7 @@ suite('PrintStatementBuilder', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const printStatementConfig = {
-            template: "console.log('{{selection}}:', {{selection}});",
+            template: "console.log('{{selectedExpression}}:', {{selectedExpression}});",
             escapeRules: []
         };
         const selectedText = 'SELECTED_TEXT';
@@ -16,7 +16,7 @@ suite('PrintStatementBuilder', () => {
 
     test('it escapes the text when injecting into a template if "|escape" is specified', () => {
         const printStatementConfig = {
-            template: "console.log('{{selection|escape}}:', {{selection}});",
+            template: "console.log('{{selectedExpression|escape}}:', {{selectedExpression}});",
             escapeRules: [["'", "\\'"]]
         };
         const selectedText = "fn('TEXT')";
@@ -27,13 +27,13 @@ suite('PrintStatementBuilder', () => {
 
     test("it won't replace the variable parts more than once", () => {
         const printStatementConfig = {
-            template: '{{selection|escape}}',
+            template: '{{selectedExpression|escape}}',
             escapeRules: [["'", "\\'"]]
         };
-        const selectedText = '{{selection}}{{selection}}';
+        const selectedText = '{{selectedExpression}}{{selectedExpression}}';
         const printStatementCounter = {getAndIncrement: () => 0};
         const printStatement = new PrintStatementBuilder({printStatementCounter}).build(printStatementConfig, selectedText);
-        expect(printStatement).to.eql('{{selection}}{{selection}}');
+        expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
     });
 
     test('it replaces {{count}} placeholder in the template with a count value', () => {
