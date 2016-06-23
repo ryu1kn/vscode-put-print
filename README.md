@@ -21,11 +21,17 @@ Put sequence number to your print statements.
 
 ## Commands
 
-| Command | Description |
-| ---     | ---         |
-| `PutPrint: Select Expression for Composing Print Statement` | Select an expression to convert to a print statement, or deselect a selected expression if no expression is highlighted (default: `ctrl+r s`). |
-| `PutPrint: Put Print Statement` | Put Print Statement composed from selected expression, template and counter (default: `ctrl+r s`). |
-| `PutPrint: Reset Counter` | Reset the counter value (default: none). |
+* `PutPrint: Select Expression for Composing Print Statement`
+
+    Select an expression to convert to a print statement, or deselect a selected expression if no expression is highlighted (default: `ctrl+r s`).
+
+* `PutPrint: Put Print Statement`
+
+    Put print statement composed from selected expression, template and counter (default: `ctrl+r s`).
+
+* `PutPrint: Reset Counter`
+
+    Reset the counter value (default: none).
 
 ## Customise Keyboard Shortcuts
 
@@ -42,11 +48,17 @@ To set your own keyboard shortcuts for put-print commands, put the key sequences
 
 You can specify a template for a print statement per language.
 
-| Configuration | Description |
-| --- | --- |
-| `putprint.printStatement.${languageId}.template`                | Print statement template for the language `languageId`, used when expression is selected |
-| `putprint.printStatement.${languageId}.templateForNoExpression` | This is also a template but used when no expression is selected |
-| `putprint.printStatement.${languageId}.escapeRules`             | List of escape rules for language `languageId` template |
+* `putprint.printStatement.${languageId}.template`
+
+    Print statement template for the language `languageId`. Will be used when expression is selected
+
+* `putprint.printStatement.${languageId}.templateForNoExpression`
+
+    This is also a template but will be used when no expression is selected
+
+* `putprint.printStatement.${languageId}.escapeRules`
+
+    List of escape rules for language `languageId` template
 
 For example, a print statement for javascript is, by default, provided as follows. You can overwrite this in your "User/Workspace Settings".
 
