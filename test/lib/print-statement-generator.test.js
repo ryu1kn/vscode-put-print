@@ -47,4 +47,16 @@ suite('PrintStatementGenerator', () => {
         const printStatement = printStatementGenerator.generate(printStatementSource);
         expect(printStatement).to.eql('DEBUG-4');
     });
+
+    test("it won't increment the counter if {{count}} placeholder doesn't appear in the template", () => {
+        const printStatementSource = {
+            selectedExpression: 'SELECTED_EXPRESSION',
+            template: 'TEMPLATE_WITH_NO_COUNTER',
+            escapeRules: []
+        };
+        const printStatementCounter = {getAndIncrement: sinon.spy()};
+        const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
+        printStatementGenerator.generate(printStatementSource);
+        expect(printStatementCounter.getAndIncrement).to.have.been.not.called;
+    });
 });
