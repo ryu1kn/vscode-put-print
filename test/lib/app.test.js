@@ -19,11 +19,11 @@ suite('App', () => {
             const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
             const isExpressionSelected = true;
-            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'TEMPLATE_CONFIG')};
+            const printStatementSourceBuilder = {build: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'TEMPLATE_CONFIG')};
             const printStatementBuilder = {build: stubWithArgs(['SAVED_TEXT', 'TEMPLATE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: sinon.stub().returns('SAVED_TEXT')};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
+            const app = new App({printStatementBuilder, printStatementSourceBuilder, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });
@@ -33,11 +33,11 @@ suite('App', () => {
             const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
             const isExpressionSelected = false;
-            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'LANGUAGE_CONFIG')};
+            const printStatementSourceBuilder = {build: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'LANGUAGE_CONFIG')};
             const printStatementBuilder = {build: stubWithArgs([undefined, 'LANGUAGE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: () => {}};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
+            const app = new App({printStatementBuilder, printStatementSourceBuilder, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });

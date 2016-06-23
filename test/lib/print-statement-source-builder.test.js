@@ -1,14 +1,14 @@
 
-const PrintStatementConfigService = require('../../lib/print-statement-config-service');
+const PrintStatementSourceBuilder = require('../../lib/print-statement-source-builder');
 
-suite('PrintStatementConfigService', () => {
+suite('PrintStatementSourceBuilder', () => {
 
     test('it returns a template config for the specified language', () => {
         const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE', escapeRules: 'ESCAPE_RULES'}};
         const workspace = fakeWorkspace(config);
         const isExpressionSelected = true;
-        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE', isExpressionSelected);
-        expect(printStatementConfig).to.eql({template: 'TEMPLATE', escapeRules: 'ESCAPE_RULES'});
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', isExpressionSelected);
+        expect(printStatementSourceBuilder).to.eql({template: 'TEMPLATE', escapeRules: 'ESCAPE_RULES'});
     });
 
     test('it returns default template if one is not defined for the specified language', () => {
@@ -18,8 +18,8 @@ suite('PrintStatementConfigService', () => {
         };
         const workspace = fakeWorkspace(config);
         const isExpressionSelected = true;
-        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE', isExpressionSelected);
-        expect(printStatementConfig).to.eql({template: 'DEFAULT_TEMPLATE', escapeRules: []});
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', isExpressionSelected);
+        expect(printStatementSourceBuilder).to.eql({template: 'DEFAULT_TEMPLATE', escapeRules: []});
     });
 
     test('it returns default config\'s "templateForNoExpression" if one is not defined for the specified language', () => {
@@ -29,16 +29,16 @@ suite('PrintStatementConfigService', () => {
         };
         const workspace = fakeWorkspace(config);
         const isExpressionSelected = false;
-        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE', isExpressionSelected);
-        expect(printStatementConfig).to.eql({template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION', escapeRules: []});
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', isExpressionSelected);
+        expect(printStatementSourceBuilder).to.eql({template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION', escapeRules: []});
     });
 
     test('it sets an empty list for escapeRules if it is not specified', () => {
         const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE'}};
         const workspace = fakeWorkspace(config);
         const isExpressionSelected = true;
-        const printStatementConfig = new PrintStatementConfigService({workspace}).get('KNOWN_LANGUAGE', isExpressionSelected);
-        expect(printStatementConfig).to.eql({template: 'TEMPLATE', escapeRules: []});
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', isExpressionSelected);
+        expect(printStatementSourceBuilder).to.eql({template: 'TEMPLATE', escapeRules: []});
     });
 
     function fakeWorkspace(templates) {
