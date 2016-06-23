@@ -68,6 +68,8 @@ For example, a print statement for javascript is, by default, provided as follow
   "putprint.printStatement.javascript.escapeRules": [["'", "\\'"], ["\\", "\\\\"]],
 ```
 
+### Special Sequences in Templates
+
 `{{KEYWORD}}` is for a placeholder to inject a certain value. Currently, there are:
 
 | Placeholder | Description |
