@@ -21,13 +21,15 @@ Put sequence number to your print statements.
 
 ## Commands
 
-* `PutPrint: Select Expression for Composing Print Statement`: Select an expression to convert to a print statement (default: `ctrl+r s`).
-* `PutPrint: Put Print Statement`: Put Print Statement composed from selected expression, template and counter (default: `ctrl+r s`).
-* `PutPrint: Reset Counter`: Reset the counter value (default: none).
+| Command | Description |
+| ---     | ---         |
+| `PutPrint: Select Expression for Composing Print Statement` | Select an expression to convert to a print statement, or deselect a selected expression if no expression is highlighted (default: `ctrl+r s`). |
+| `PutPrint: Put Print Statement` | Put Print Statement composed from selected expression, template and counter (default: `ctrl+r s`). |
+| `PutPrint: Reset Counter` | Reset the counter value (default: none). |
 
 ## Customise Keyboard Shortcuts
 
-To overwrite the default keyboard shortcuts, put the key sequences you like in your keyboard shortcut settings. For example:
+To set your own keyboard shortcuts for put-print commands, put the key sequences you like in your keyboard shortcut settings. For example:
 
 ```json
   { "key": "shift+f6", "command": "putprint.selectExpression",
@@ -40,25 +42,31 @@ To overwrite the default keyboard shortcuts, put the key sequences you like in y
 
 You can specify a template for a print statement per language.
 
-* `putprint.printStatement.${languageId}.template`: Print statement template for the language `languageId`
-* `putprint.printStatement.${languageId}.escapeRules`: List of escape rules for language `languageId` template
+| Configuration | Description |
+| --- | --- |
+| `putprint.printStatement.${languageId}.template`                | Print statement template for the language `languageId`, used when expression is selected |
+| `putprint.printStatement.${languageId}.templateForNoExpression` | This is also a template but used when no expression is selected |
+| `putprint.printStatement.${languageId}.escapeRules`             | List of escape rules for language `languageId` template |
 
-For example, if you want to specify a print statement for javascript, you could have following entries in your "User/Workspace Settings".
+For example, a print statement for javascript is, by default, provided as follows. You can overwrite this in your "User/Workspace Settings".
 
 ```json
   "putprint.printStatement.javascript.template": "console.log('{{selectedExpression|escape}}:', {{selectedExpression}})",
+  "putprint.printStatement.javascript.templateForNoExpression": "console.log('>>>>> {{count}}')",
   "putprint.printStatement.javascript.escapeRules": [["'", "\\'"], ["\\", "\\\\"]],
 ```
 
 `{{KEYWORD}}` is for a placeholder to inject a certain value. Currently, there are:
 
-* `{{selectedExpression}}`: Replaced with the expression you selected with "PutPrint: Select Expression ..." command
-* `{{selectedExpression|escape}}`: Same with `{{selectedExpression}}` but the result will be escaped by the rules supplied as "escapeRules"
-* `{{count}}`: Replaced with counter value which is incremented every time you put print statement
+| Placeholder | Description |
+| ---         | ---         |
+| `{{selectedExpression}}`        | Replaced with the expression you selected with "PutPrint: Select Expression ..." command |
+| `{{selectedExpression|escape}}` | Same with `{{selectedExpression}}` but the result will be escaped by the rules provided as "escapeRules" |
+| `{{count}}`                     | Replaced with counter value which is incremented every time you put a print statement that contains `{{count}}` |
 
-If you don't have a print statement setting for the editor you're working on, default template will be used.
-
-* `putprint.printStatement.default.template`: Will be used when there is no language specific template found
+If you haven't specified a print statement template for the language you're working on, default template,
+which is either `putprint.printStatement.default.template` or `putprint.printStatement.default.templateForNoExpression`,
+depending on whether you're currently selecting an expression, will be used.
 
 ## Release Notes
 

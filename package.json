@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "publisher": "ryu1kn",
   "license": "SEE LICENSE IN LICENSE.txt",
-  "icon": "",
+  "icon": "images/put-print_360x360.png",
   "bugs": {
     "url": "https://github.com/ryu1kn/vscode-put-print/issues"
   },
