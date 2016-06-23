@@ -3,47 +3,48 @@ const PrintStatementGenerator = require('../../lib/print-statement-generator');
 
 suite('PrintStatementGenerator', () => {
 
-    test('it replaces the selected text with a print statement', () => {
-        const printStatementConfig = {
+    test('it replaces the selected expression with a print statement', () => {
+        const printStatementSource = {
+            selectedExpression: 'SELECTED_EXPRESSION',
             template: "console.log('{{selectedExpression}}:', {{selectedExpression}});",
             escapeRules: []
         };
-        const selectedExpression = 'SELECTED_EXPRESSION';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
         expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
-    test('it escapes the text when injecting into a template if "|escape" is specified', () => {
-        const printStatementConfig = {
+    test('it escapes the expression when injecting into a template if "|escape" is specified', () => {
+        const printStatementSource = {
+            selectedExpression: "fn('TEXT')",
             template: "console.log('{{selectedExpression|escape}}:', {{selectedExpression}});",
             escapeRules: [["'", "\\'"]]
         };
-        const selectedExpression = "fn('TEXT')";
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
         expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
     test("it won't replace the variable parts more than once", () => {
-        const printStatementConfig = {
+        const printStatementSource = {
+            selectedExpression: '{{selectedExpression}}{{selectedExpression}}',
             template: '{{selectedExpression|escape}}',
             escapeRules: [["'", "\\'"]]
         };
-        const selectedExpression = '{{selectedExpression}}{{selectedExpression}}';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
         expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
     });
 
     test('it replaces {{count}} placeholder in the template with a count value', () => {
-        const printStatementConfig = {
+        const printStatementSource = {
+            selectedExpression: 'SELECTED_EXPRESSION',
             template: 'DEBUG-{{count}}',
             escapeRules: []
         };
         const printStatementCounter = {getAndIncrement: () => 4};
         const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
-        const printStatement = printStatementGenerator.generate('SELECTED_EXPRESSION', printStatementConfig);
+        const printStatement = printStatementGenerator.generate(printStatementSource);
         expect(printStatement).to.eql('DEBUG-4');
     });
 });
