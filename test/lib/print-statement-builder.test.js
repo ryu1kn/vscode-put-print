@@ -8,10 +8,10 @@ suite('PrintStatementBuilder', () => {
             template: "console.log('{{selectedExpression}}:', {{selectedExpression}});",
             escapeRules: []
         };
-        const selectedText = 'SELECTED_TEXT';
+        const selectedExpression = 'SELECTED_EXPRESSION';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(printStatementConfig, selectedText);
-        expect(printStatement).to.eql("console.log('SELECTED_TEXT:', SELECTED_TEXT);");
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
+        expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
     test('it escapes the text when injecting into a template if "|escape" is specified', () => {
@@ -19,9 +19,9 @@ suite('PrintStatementBuilder', () => {
             template: "console.log('{{selectedExpression|escape}}:', {{selectedExpression}});",
             escapeRules: [["'", "\\'"]]
         };
-        const selectedText = "fn('TEXT')";
+        const selectedExpression = "fn('TEXT')";
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(printStatementConfig, selectedText);
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
         expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
@@ -30,9 +30,9 @@ suite('PrintStatementBuilder', () => {
             template: '{{selectedExpression|escape}}',
             escapeRules: [["'", "\\'"]]
         };
-        const selectedText = '{{selectedExpression}}{{selectedExpression}}';
+        const selectedExpression = '{{selectedExpression}}{{selectedExpression}}';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(printStatementConfig, selectedText);
+        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
         expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
     });
 
@@ -43,7 +43,7 @@ suite('PrintStatementBuilder', () => {
         };
         const printStatementCounter = {getAndIncrement: () => 4};
         const printStatementBuilder = new PrintStatementBuilder({printStatementCounter});
-        const printStatement = printStatementBuilder.build(printStatementConfig, 'SELECTED_TEXT');
+        const printStatement = printStatementBuilder.build('SELECTED_EXPRESSION', printStatementConfig);
         expect(printStatement).to.eql('DEBUG-4');
     });
 });

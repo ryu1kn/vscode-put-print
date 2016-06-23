@@ -38,8 +38,13 @@
       "properties": {
         "putprint.printStatement.javascript.template": {
           "type": "string",
-          "default": "console.log('{{count}}: {{selectedExpression|escape}}:', {{selectedExpression}})",
+          "default": "console.log('{{selectedExpression|escape}}:', {{selectedExpression}})",
           "description": "Print statement template for JavaScript"
+        },
+        "putprint.printStatement.javascript.templateForNoExpression": {
+          "type": "string",
+          "default": "console.log('>>>>> {{count}}')",
+          "description": "Print statement template for JavaScript that will be used when \"expression\" is not selected"
         },
         "putprint.printStatement.javascript.escapeRules": {
           "type": "array",
@@ -63,8 +68,13 @@
         },
         "putprint.printStatement.ruby.template": {
           "type": "string",
-          "default": "print(\"{{count}}: {{selectedExpression|escape}}:\", {{selectedExpression}})",
+          "default": "print(\"{{selectedExpression|escape}}:\", {{selectedExpression}})",
           "description": "Print statement template for Ruby"
+        },
+        "putprint.printStatement.ruby.templateForNoExpression": {
+          "type": "string",
+          "default": "print(\">>>>> {{count}}\")",
+          "description": "Print statement template for Ruby that will be used when \"expression\" is not selected"
         },
         "putprint.printStatement.ruby.escapeRules": {
           "type": "array",
@@ -90,6 +100,11 @@
           "type": "string",
           "default": "# {{selectedExpression}}",
           "description": "Will be used when there is no language specific template found"
+        },
+        "putprint.printStatement.default.templateForNoExpression": {
+          "type": "string",
+          "default": "# >>>>> {{count}}",
+          "description": "Will be used when there is no language specific templateForNoExpression settings found"
         }
       }
     },

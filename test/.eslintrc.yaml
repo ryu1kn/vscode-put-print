@@ -1,6 +1,7 @@
 globals:
   expect: true
   sinon: true
+  stubWithArgs: true
   suite: true
   test: true
 rules:

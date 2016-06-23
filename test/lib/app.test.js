@@ -5,20 +5,22 @@ suite('App', () => {
 
     suite('#selectExpression', () => {
 
-        test('saves selected text to a buffer', () => {
+        test('saves selected expression to a buffer', () => {
             const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
             const textBuffer = {write: sinon.spy()};
             new App({textBuffer}).selectExpression(editor);
+            expect(textBuffer.write).to.have.been.calledWith('SELECTED_TEXT');
         });
     });
 
     suite('#putPrintStatement', () => {
 
-        test('it replaces the selected text with a print statement composed from saved text', () => {
+        test('it replaces the selected text with a print statement composed from a selected expression', () => {
             const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
-            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID'], 'LANGUAGE_CONFIG')};
-            const printStatementBuilder = {build: stubWithArgs(['LANGUAGE_CONFIG', 'SAVED_TEXT'], 'PRINT_STATEMENT')};
+            const isExpressionSelected = true;
+            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'TEMPLATE_CONFIG')};
+            const printStatementBuilder = {build: stubWithArgs(['SAVED_TEXT', 'TEMPLATE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: sinon.stub().returns('SAVED_TEXT')};
             const logger = getLogger();
             const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
@@ -27,17 +29,17 @@ suite('App', () => {
             });
         });
 
-        test("it doesn't do anything if text has not been saved", () => {
-            const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
-            const printStatementConfigService = {get: sinon.spy()};
-            const printStatementBuilder = {build: sinon.spy()};
+        test("it puts print statement even if an expression hasn't been selected", () => {
+            const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
+            const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
+            const isExpressionSelected = false;
+            const printStatementConfigService = {get: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'LANGUAGE_CONFIG')};
+            const printStatementBuilder = {build: stubWithArgs([undefined, 'LANGUAGE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: () => {}};
             const logger = getLogger();
             const app = new App({printStatementBuilder, printStatementConfigService, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
-                expect(editor._editBuilder.replace).to.have.been.not.called;
-                expect(printStatementConfigService.get).to.have.been.not.called;
-                expect(printStatementBuilder.build).to.have.been.not.called;
+                expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });
         });
 
@@ -89,17 +91,6 @@ suite('App', () => {
             },
             _editBuilder: {replace: sinon.spy()}
         };
-    }
-
-    function stubWithArgs() {
-        'use strict';
-
-        const args = Array.prototype.slice.call(arguments);
-        const stub = sinon.stub();
-        for (let i = 0; i + 1 < args.length; i += 2) {
-            stub.withArgs.apply(stub, args[i]).returns(args[i + 1]);
-        }
-        return stub;
     }
 
     function getLogger() {
