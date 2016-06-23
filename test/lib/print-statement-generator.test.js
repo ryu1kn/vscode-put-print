@@ -1,7 +1,7 @@
 
-const PrintStatementBuilder = require('../../lib/print-statement-builder');
+const PrintStatementGenerator = require('../../lib/print-statement-generator');
 
-suite('PrintStatementBuilder', () => {
+suite('PrintStatementGenerator', () => {
 
     test('it replaces the selected text with a print statement', () => {
         const printStatementConfig = {
@@ -10,7 +10,7 @@ suite('PrintStatementBuilder', () => {
         };
         const selectedExpression = 'SELECTED_EXPRESSION';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
         expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
@@ -21,7 +21,7 @@ suite('PrintStatementBuilder', () => {
         };
         const selectedExpression = "fn('TEXT')";
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
         expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
@@ -32,7 +32,7 @@ suite('PrintStatementBuilder', () => {
         };
         const selectedExpression = '{{selectedExpression}}{{selectedExpression}}';
         const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementBuilder({printStatementCounter}).build(selectedExpression, printStatementConfig);
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(selectedExpression, printStatementConfig);
         expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
     });
 
@@ -42,8 +42,8 @@ suite('PrintStatementBuilder', () => {
             escapeRules: []
         };
         const printStatementCounter = {getAndIncrement: () => 4};
-        const printStatementBuilder = new PrintStatementBuilder({printStatementCounter});
-        const printStatement = printStatementBuilder.build('SELECTED_EXPRESSION', printStatementConfig);
+        const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
+        const printStatement = printStatementGenerator.generate('SELECTED_EXPRESSION', printStatementConfig);
         expect(printStatement).to.eql('DEBUG-4');
     });
 });

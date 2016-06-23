@@ -20,10 +20,10 @@ suite('App', () => {
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
             const isExpressionSelected = true;
             const printStatementSourceBuilder = {build: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'TEMPLATE_CONFIG')};
-            const printStatementBuilder = {build: stubWithArgs(['SAVED_TEXT', 'TEMPLATE_CONFIG'], 'PRINT_STATEMENT')};
+            const printStatementGenerator = {generate: stubWithArgs(['SAVED_TEXT', 'TEMPLATE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: sinon.stub().returns('SAVED_TEXT')};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, printStatementSourceBuilder, textBuffer, logger});
+            const app = new App({printStatementGenerator, printStatementSourceBuilder, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });
@@ -34,10 +34,10 @@ suite('App', () => {
             const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
             const isExpressionSelected = false;
             const printStatementSourceBuilder = {build: stubWithArgs(['LANGUAGE_ID', isExpressionSelected], 'LANGUAGE_CONFIG')};
-            const printStatementBuilder = {build: stubWithArgs([undefined, 'LANGUAGE_CONFIG'], 'PRINT_STATEMENT')};
+            const printStatementGenerator = {generate: stubWithArgs([undefined, 'LANGUAGE_CONFIG'], 'PRINT_STATEMENT')};
             const textBuffer = {read: () => {}};
             const logger = getLogger();
-            const app = new App({printStatementBuilder, printStatementSourceBuilder, textBuffer, logger});
+            const app = new App({printStatementGenerator, printStatementSourceBuilder, textBuffer, logger});
             return app.putPrintStatement(editor).then(() => {
                 expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
             });
