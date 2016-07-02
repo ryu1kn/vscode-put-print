@@ -2,7 +2,8 @@
 
 ## Features
 
-Quickly insert print statements into your source code.
+Use this simple, customisable plugin to quickly insert print/log statements into your code.
+Templates from which print statements are composed can be defined/overwritten per language in your user preferences.
 
 ![Put print statement](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/put-print-statement.gif)
 
@@ -72,17 +73,27 @@ For example, a print statement for javascript is, by default, provided as follow
 
 `{{KEYWORD}}` is for a placeholder to inject a certain value. Currently, there are:
 
-| Placeholder | Description |
-| ---         | ---         |
-| `{{selectedExpression}}`        | Replaced with the expression you selected with "PutPrint: Select Expression ..." command |
-| `{{selectedExpression|escape}}` | Same with `{{selectedExpression}}` but the result will be escaped by the rules provided as "escapeRules" |
-| `{{count}}`                     | Replaced with counter value which is incremented every time you put a print statement that contains `{{count}}` |
+* `{{selectedExpression}}`
+
+    Replaced with the expression you selected with "PutPrint: Select Expression ..." command
+
+* `{{selectedExpression|escape}}`
+
+    Same with `{{selectedExpression}}` but the result will be escaped by the rules provided as "escapeRules"
+
+* `{{count}}`
+
+    Replaced with counter value which is incremented every time you put a print statement that contains `{{count}}`
 
 If you haven't specified a print statement template for the language you're working on, default template,
 which is either `putprint.printStatement.default.template` or `putprint.printStatement.default.templateForNoExpression`,
 depending on whether you're currently selecting an expression, will be used.
 
 ## Release Notes
+
+### 0.0.2
+
+Updated the package description
 
 ### 0.0.1
 

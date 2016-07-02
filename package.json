@@ -1,8 +1,8 @@
 {
   "name": "putprint",
   "displayName": "Put Print",
-  "description": "Quickly put print statements",
-  "version": "0.0.1",
+  "description": "Put print/log statements into your code using a template defined/customised (per language) by user",
+  "version": "0.0.2",
   "publisher": "ryu1kn",
   "license": "SEE LICENSE IN LICENSE.txt",
   "icon": "images/put-print_360x360.png",
@@ -22,8 +22,10 @@
   ],
   "keywords": [
     "vscode",
+    "console",
     "debug",
-    "print"
+    "print",
+    "log"
   ],
   "activationEvents": [
     "onCommand:putprint.putPrintStatement",
