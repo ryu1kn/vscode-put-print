@@ -89,12 +89,10 @@ If you haven't specified a print statement template for the language you're work
 which is either `putprint.printStatement.default.template` or `putprint.printStatement.default.templateForNoExpression`,
 depending on whether you're currently selecting an expression, will be used.
 
-## Release Notes
+## Request Features or Report Bugs
 
-### 0.0.2
+* https://github.com/ryu1kn/vscode-put-print/issues
 
-Updated the package description
+## Changelog
 
-### 0.0.1
-
-Initial release of put-print
+* https://github.com/ryu1kn/vscode-put-print/blob/master/CHANGELOG.md
