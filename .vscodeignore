@@ -6,6 +6,7 @@ images/animations/**
 .editorconfig
 .eslintrc.yaml
 .codeclimate.yml
+.travis.yml
 jsconfig.json
 vsc-extension-quickstart.md
 __*
