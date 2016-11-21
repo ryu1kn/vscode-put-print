@@ -5,6 +5,7 @@ images/animations/**
 .gitignore
 .editorconfig
 .eslintrc.yaml
+.codeclimate.yml
 jsconfig.json
 vsc-extension-quickstart.md
 __*
