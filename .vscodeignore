@@ -1,11 +1,13 @@
 .vscode/**
-typings/**
+/typings/**
 test/**
+coverage/**
 images/animations/**
 npm-debug.log
 .gitignore
 .editorconfig
 .eslintrc.yaml
+.eslintignore
 .codeclimate.yml
 .travis.yml
 jsconfig.json

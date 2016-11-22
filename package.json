@@ -112,14 +112,14 @@
     },
     "keybindings": [
       {
-          "command": "putprint.putPrintStatement",
-          "key": "ctrl+r p",
-          "when": "editorTextFocus"
+        "command": "putprint.putPrintStatement",
+        "key": "ctrl+r p",
+        "when": "editorTextFocus"
       },
       {
-          "command": "putprint.selectExpression",
-          "key": "ctrl+r s",
-          "when": "editorTextFocus"
+        "command": "putprint.selectExpression",
+        "key": "ctrl+r s",
+        "when": "editorTextFocus"
       }
     ],
     "commands": [
@@ -139,14 +139,17 @@
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- test --recursive --ui tdd",
     "lint": "eslint .",
     "test": "mocha test --recursive --ui tdd",
     "test-mode": "mocha test --recursive --ui tdd --watch"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "codeclimate-test-reporter": "^0.4.0",
     "eslint": "^2.12.0",
     "eslint-config-xo": "^0.15.0",
+    "istanbul": "^0.4.5",
     "mocha": "^2.5.3",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
