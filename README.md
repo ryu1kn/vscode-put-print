@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ryu1kn/vscode-put-print.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-put-print)
+[![Build Status](https://travis-ci.org/ryu1kn/vscode-put-print.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-put-print) [![Code Climate](https://codeclimate.com/github/ryu1kn/vscode-put-print/badges/gpa.svg)](https://codeclimate.com/github/ryu1kn/vscode-put-print)
 
 # Put Print
 
