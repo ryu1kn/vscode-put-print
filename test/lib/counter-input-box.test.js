@@ -21,4 +21,23 @@ suite('CounterInputBox', () => {
             expect(result).to.eql(0);
         });
     });
+
+    test('it specifies a validation function that gives instruction message when non number string is given', () => {
+        const window = {showInputBox: sinon.stub().returns(Promise.resolve(''))};
+        const inputBox = new CounterInputBox({window});
+        return inputBox.read().then(_result => {
+            const validationFn = window.showInputBox.args[0][0].validateInput;
+            expect(validationFn('NON_NUMBER')).to.eql('Please specify a number');
+        });
+    });
+
+    test('it specifies a validation function that gives nothing if a number string is given', () => {
+        const window = {showInputBox: sinon.stub().returns(Promise.resolve(''))};
+        const inputBox = new CounterInputBox({window});
+        return inputBox.read().then(_result => {
+            const validationFn = window.showInputBox.args[0][0].validateInput;
+            expect(validationFn('3')).to.be.null;
+        });
+    });
+
 });
