@@ -8,6 +8,9 @@ suite('CounterInputBox', () => {
         const inputBox = new CounterInputBox({window});
         return inputBox.read().then(result => {
             expect(result).to.eql(3);
+            expect(window.showInputBox.args[0][0].placeHolder).to.eql('Default to 0');
+            expect(window.showInputBox.args[0][0].prompt).to.eql('Number to reset the counter');
+            expect(window.showInputBox.args[0][0].validateInput).to.be.an('function');
         });
     });
 
