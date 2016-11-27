@@ -11,6 +11,17 @@ suite('App', () => {
             new App({textBuffer}).selectExpression(editor);
             expect(textBuffer.write).to.have.been.calledWith('SELECTED_TEXT');
         });
+
+        test('it prints callstack if unhandled exception occurred', () => {
+            const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
+            const logger = {error: sinon.spy()};
+            const textBuffer = {
+                write: () => {throw new Error('UNEXPECTED_ERROR');}
+            };
+
+            new App({textBuffer, logger}).selectExpression(editor);
+            expect(logger.error.args[0][0]).to.have.string('Error: UNEXPECTED_ERROR');
+        });
     });
 
     suite('#putPrintStatement', () => {
@@ -42,11 +53,11 @@ suite('App', () => {
         });
 
         test('it prints callstack if unhandled exception occurred', () => {
-            const textBuffer = {read: sinon.stub().throws(new Error('TEXT_BUFFER_ERROR'))};
+            const textBuffer = {read: sinon.stub().throws(new Error('UNEXPECTED_ERROR'))};
             const logger = {error: sinon.spy()};
             const app = new App({textBuffer, logger});
             return app.putPrintStatement(fakeEditor('SELECTED_TEXT')).then(() => {
-                expect(logger.error.args[0][0]).to.have.string('Error: TEXT_BUFFER_ERROR');
+                expect(logger.error.args[0][0]).to.have.string('Error: UNEXPECTED_ERROR');
             });
         });
     });
@@ -70,6 +81,18 @@ suite('App', () => {
             const app = new App({printStatementCounter, counterInputBox, logger});
             return app.resetCounter().then(() => {
                 expect(printStatementCounter.reset).to.have.been.not.called;
+            });
+        });
+
+        test('it prints callstack if unhandled exception occurred', () => {
+            const logger = {error: sinon.spy()};
+            const printStatementCounter = {
+                reset: () => {throw new Error('UNEXPECTED_ERROR');}
+            };
+            const counterInputBox = {read: sinon.stub().returns(Promise.resolve(24))};
+            const app = new App({printStatementCounter, counterInputBox, logger});
+            return app.resetCounter().then(() => {
+                expect(logger.error.args[0][0]).to.have.string('Error: UNEXPECTED_ERROR');
             });
         });
     });
