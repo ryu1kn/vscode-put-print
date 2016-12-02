@@ -1,4 +1,6 @@
 
+require('../extension');    // Include all source files into coverage report
+
 const chai = require('chai');
 chai.use(require('sinon-chai'));
 
