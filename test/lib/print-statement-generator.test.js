@@ -14,6 +14,17 @@ suite('PrintStatementGenerator', () => {
         expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
+    test('it behaves as if an empty string is selected if no text is selected', () => {
+        const printStatementSource = {
+            selectedExpression: undefined,
+            template: "console.log('Checking {{selectedExpression}}...');",
+            escapeRules: []
+        };
+        const printStatementCounter = {getAndIncrement: () => 0};
+        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
+        expect(printStatement).to.eql("console.log('Checking ...');");
+    });
+
     test('it escapes the expression when injecting into a template if "|escape" is specified', () => {
         const printStatementSource = {
             selectedExpression: "fn('TEXT')",

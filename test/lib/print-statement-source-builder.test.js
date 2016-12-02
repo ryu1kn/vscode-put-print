@@ -39,7 +39,7 @@ suite('PrintStatementSourceBuilder', () => {
         const selectedExpression = undefined;
         const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', selectedExpression);
         expect(printStatementSourceBuilder).to.eql({
-            selectedExpression: null,
+            selectedExpression: undefined,
             template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION',
             escapeRules: []
         });

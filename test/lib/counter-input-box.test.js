@@ -14,6 +14,14 @@ suite('CounterInputBox', () => {
         });
     });
 
+    test('it returns null if a user dismiss the input box without confirming the input', () => {
+        const window = {showInputBox: sinon.stub().returns(Promise.resolve())};
+        const inputBox = new CounterInputBox({window});
+        return inputBox.read().then(result => {
+            expect(result).to.be.null;
+        });
+    });
+
     test('it returns the default value 0 if a user left the input box empty', () => {
         const window = {showInputBox: sinon.stub().returns(Promise.resolve(''))};
         const inputBox = new CounterInputBox({window});
