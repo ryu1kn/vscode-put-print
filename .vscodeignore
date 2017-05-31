@@ -9,6 +9,7 @@ npm-debug.log
 .eslintrc.yaml
 .eslintignore
 .codeclimate.yml
+.nvmrc
 .travis.yml
 jsconfig.json
 vsc-extension-quickstart.md
