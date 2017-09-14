@@ -7,7 +7,7 @@
 Quickly put print statements to help you print debug your code.
 Templates from which print statements are composed can be defined/overwritten per language in your user preferences.
 
-![Put print statement](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/put-print-statement.gif)
+![Put print statement](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/public.gif)
 
 Escape certain sequences when converting the selected expression into a print statement.
 
