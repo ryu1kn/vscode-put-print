@@ -1,8 +1,8 @@
 {
   "name": "putprint",
-  "displayName": "Put Print",
-  "description": "Put print/log statements into your code using a template defined/customised (per language) by user",
-  "version": "0.0.2",
+  "displayName": "Print Debug (aka Put Print)",
+  "description": "Quickly put print statements to help you print debug your code. Works on any languages by adding your own print statements",
+  "version": "0.0.3",
   "publisher": "ryu1kn",
   "license": "SEE LICENSE IN LICENSE.txt",
   "icon": "images/put-print_360x360.png",
@@ -125,15 +125,18 @@
     "commands": [
       {
         "command": "putprint.putPrintStatement",
-        "title": "PutPrint: Put Print Statement"
+        "title": "Put Print Statement",
+        "category": "PrintDebug"
       },
       {
         "command": "putprint.resetCounter",
-        "title": "PutPrint: Reset Counter"
+        "title": "Reset Counter",
+        "category": "PrintDebug"
       },
       {
         "command": "putprint.selectExpression",
-        "title": "PutPrint: Select Expression for Composing Print Statement"
+        "title": "Select Expression for Composing Print Statement",
+        "category": "PrintDebug"
       }
     ]
   },

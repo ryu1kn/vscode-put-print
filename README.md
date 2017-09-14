@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/ryu1kn/vscode-put-print.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-put-print) [![Code Climate](https://codeclimate.com/github/ryu1kn/vscode-put-print/badges/gpa.svg)](https://codeclimate.com/github/ryu1kn/vscode-put-print)
 
-# Put Print
+# Print Debug (aka Put Print)
 
 ## Features
 
-Use this simple, customisable plugin to quickly insert print/log statements into your code.
+Quickly put print statements to help you print debug your code.
 Templates from which print statements are composed can be defined/overwritten per language in your user preferences.
 
 ![Put print statement](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/put-print-statement.gif)
@@ -24,15 +24,15 @@ Put sequence number to your print statements.
 
 ## Commands
 
-* `PutPrint: Select Expression for Composing Print Statement`
+* `PrintDebug: Select Expression for Composing Print Statement`
 
     Select an expression to convert to a print statement, or deselect a selected expression if no expression is highlighted (default: `ctrl+r s`).
 
-* `PutPrint: Put Print Statement`
+* `PrintDebug: Put Print Statement`
 
     Put print statement composed from selected expression, template and counter (default: `ctrl+r s`).
 
-* `PutPrint: Reset Counter`
+* `PrintDebug: Reset Counter`
 
     Reset the counter value (default: none).
 
@@ -77,7 +77,7 @@ For example, a print statement for javascript is, by default, provided as follow
 
 * `{{selectedExpression}}`
 
-    Replaced with the expression you selected with "PutPrint: Select Expression ..." command
+    Replaced with the expression you selected with "PrintDebug: Select Expression ..." command
 
 * `{{selectedExpression|escape}}`
 
