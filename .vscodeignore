@@ -1,9 +1,9 @@
-.idea/**
-.vscode/**
-/typings/**
-test/**
-coverage/**
-images/animations/**
+.idea/**/*
+.vscode/**/*
+typings/**/*
+test/**/*
+coverage/**/*
+images/animations/**/*
 npm-debug.log
 .gitignore
 .editorconfig
@@ -13,5 +13,5 @@ npm-debug.log
 .nvmrc
 .travis.yml
 jsconfig.json
-vsc-extension-quickstart.md
-__*
+**/__*
+
