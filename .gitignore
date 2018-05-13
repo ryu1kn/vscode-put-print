@@ -1,5 +1,6 @@
 /node_modules
 /typings
 /coverage
+/.idea
 npm-debug.log
 __*

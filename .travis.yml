@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - "7.4"
+  - "7.9"
 addons:
   code_climate:
     repo_token:
       secure: "mVO+XSr6QKb/TAveGjgLa+CU8k704Hpxx/ypFcdYyhOgRVqkL/GVIHM634aaCdD8qmNOrL/r7mwsFCf9QZ5vdcTNbp9qm4sqDW/U6KRUdI6veL1ORObmYR9A2XvB8qbE35MtBoeyiChzFZy4KM7gUKz1SKCXr82wHdG89/NY71zzIILQdHEX3gAPeKL20i4CenkfxYze7/LwG2z6FzHCcj9xQxf+kCgK8d5vSbbenee8QFCPSv7F0QaOYhiap/DBxO9bylHTNDENdmDw1quKhZm8qBHMX9b1kOpGXpBuNjjBoHugQVtJpaapsIxM7K02qHiC/2hGJikgNm6y+C3bQKgrzs42qT84SCEzcpkE2k7hCQsKaYwBfpVjHsWnI/Ox6vOTqDD5PswJgyu2mk3Prb5DJK+xVyg8f3JNdkU4g1nrJadqJim8nIMGlMsd+nac4wu5vf7/NtGZDAGY/TIU5bAqTnEUH4Q6czzJRNl9JPuyooRCiFGMj4CiRygPC2R/algKmWVmbdyiQhKAm8fPvPF1EiopZo0OuSJoi2wEvF2GoZDdWiEP2iSFllpDc0rmUz5Qznud7H5hSUfsW7C7bhDHKyyCnv/zXurMFOtLpGHM6SGiZsHcuIXOE/XmP+x2ozCaoSdSAdz3jHvdpkVT5eXT2gBz/xwKNkSuFWHer0s="
 install:
-  - npm install
+  - yarn install
 script:
-  - npm run lint
-  - npm run coverage  # coverage also runs unit tests internally
+  - yarn run lint
+  - yarn run coverage  # coverage also runs unit tests internally
 after_script:
   - codeclimate-test-reporter < coverage/lcov.info
 notifications:
