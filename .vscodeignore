@@ -11,6 +11,8 @@ npm-debug.log
 .eslintignore
 .codeclimate.yml
 .nvmrc
+.nycrc
+.nyc_output/**/*
 .travis.yml
 jsconfig.json
 **/__*

@@ -2,5 +2,6 @@
 /typings
 /coverage
 /.idea
+/.nyc_output
 npm-debug.log
 __*
