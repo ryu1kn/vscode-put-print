@@ -15,5 +15,5 @@ npm-debug.log
 .nyc_output/**/*
 .travis.yml
 jsconfig.json
-**/__*
-
+__*
+__*/**/*
