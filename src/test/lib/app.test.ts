@@ -1,4 +1,3 @@
-import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {any, contains, mock, mockMethods, mockType, verify, when} from '../helper';
 import App from '../../lib/app';
@@ -8,6 +7,8 @@ import CounterInputBox from '../../lib/counter-input-box';
 import TextBuffer from '../../lib/text-buffer';
 import PrintStatementSourceBuilder, {PrintStatementSource} from '../../lib/print-statement-source-builder';
 import PrintStatementCounter from '../../lib/print-statement-counter';
+import * as vscode from 'vscode';
+import {Range, TextEditor, TextEditorEdit} from 'vscode';
 
 suite('App', () => {
 
@@ -45,8 +46,9 @@ suite('App', () => {
         const templateSource = mockType<PrintStatementSource>();
 
         test('it replaces the selected text with a print statement composed from a selected expression', () => {
-            const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
-            const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
+            const selection = mockType<Range>({text: 'TEXT_TO_REPLACE', isEmpty: false});
+            const editBuilder = mockMethods<vscode.TextEditorEdit>(['replace']);
+            const editor = fakeEditor('TEXT_TO_REPLACE', 'LANGUAGE_ID', editBuilder);
             const printStatementSourceBuilder = mock(PrintStatementSourceBuilder);
             when(printStatementSourceBuilder.build('LANGUAGE_ID', 'SAVED_TEXT')).thenReturn(templateSource);
             const printStatementGenerator = mock(PrintStatementGenerator);
@@ -56,13 +58,14 @@ suite('App', () => {
             const logger = getLogger();
             const app = new App(printStatementGenerator, printStatementCounter, printStatementSourceBuilder, textBuffer, counterInputBox, logger);
             return app.putPrintStatement(editor).then(() => {
-                expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
+                verify(editBuilder.replace(selection, 'PRINT_STATEMENT'));
             });
         });
 
         test("it puts print statement even if an expression hasn't been selected", () => {
-            const selection = {text: 'TEXT_TO_REPLACE', isEmpty: false};
-            const editor = fakeEditor(selection.text, 'LANGUAGE_ID');
+            const selection = mockType<Range>({text: 'TEXT_TO_REPLACE', isEmpty: false});
+            const editBuilder = mockMethods<vscode.TextEditorEdit>(['replace']);
+            const editor = fakeEditor('TEXT_TO_REPLACE', 'LANGUAGE_ID', editBuilder);
             const printStatementSourceBuilder = mock(PrintStatementSourceBuilder);
             when(printStatementSourceBuilder.build('LANGUAGE_ID', undefined)).thenReturn(templateSource);
             const printStatementGenerator = mock(PrintStatementGenerator);
@@ -72,7 +75,7 @@ suite('App', () => {
             const logger = getLogger();
             const app = new App(printStatementGenerator, printStatementCounter, printStatementSourceBuilder, textBuffer, counterInputBox, logger);
             return app.putPrintStatement(editor).then(() => {
-                expect(editor._editBuilder.replace.args).to.eql([[selection, 'PRINT_STATEMENT']]);
+                verify(editBuilder.replace(selection, 'PRINT_STATEMENT'));
             });
         });
 
@@ -124,8 +127,8 @@ suite('App', () => {
         });
     });
 
-    function fakeEditor(selectedText, languageId?) {
-        return {
+    function fakeEditor(selectedText: string, languageId?: string, editBuilder?: TextEditorEdit) {
+        return mockType<TextEditor>({
             selection: {
                 text: selectedText,
                 isEmpty: !selectedText
@@ -134,11 +137,10 @@ suite('App', () => {
                 getText: sinon.stub().returns(selectedText),
                 languageId: languageId
             },
-            edit: function (callback) {
-                callback(this._editBuilder);
-            },
-            _editBuilder: {replace: sinon.spy()}
-        };
+            edit: function (callback: any) {
+                callback(editBuilder || {replace: () => {}});
+            }
+        });
     }
 
     function getLogger() {

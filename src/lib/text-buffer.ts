@@ -1,8 +1,8 @@
 
 export default class TextBuffer {
-    private text: string;
+    private text?: string;
 
-    write(text) {
+    write(text: string) {
         this.text = text;
     }
 

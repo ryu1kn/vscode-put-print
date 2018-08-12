@@ -19,8 +19,8 @@ export default class CounterInputBox {
         return parseInt(input, 10);
     }
 
-    private validateInput(input) {
-        return isNaN(parseInt(input, 10)) ? 'Please specify a number' : null;
+    private validateInput(input: string) {
+        return isNaN(parseInt(input, 10)) ? 'Please specify a number' : '';
     }
 
 }

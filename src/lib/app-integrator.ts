@@ -1,4 +1,5 @@
 import App from './app';
+import * as vscode from 'vscode';
 
 const EXTENSION_NAMESPACE = 'putprint';
 
@@ -11,12 +12,12 @@ export default class AppIntegrator {
         this.vscode = vscode;
     }
 
-    integrate(context) {
+    integrate(context: vscode.ExtensionContext) {
         this.registerTextEditorCommands(context);
         this.registerCommands(context);
     }
 
-    private registerTextEditorCommands(context) {
+    private registerTextEditorCommands(context: vscode.ExtensionContext) {
         const app = this.app;
         const commandMap = new Map([
             [`${EXTENSION_NAMESPACE}.putPrintStatement`, app.putPrintStatement.bind(app)],
@@ -28,7 +29,7 @@ export default class AppIntegrator {
         });
     }
 
-    private registerCommands(context) {
+    private registerCommands(context: vscode.ExtensionContext) {
         const app = this.app;
         const disposable = this.vscode.commands.registerCommand(
             `${EXTENSION_NAMESPACE}.resetCounter`, app.resetCounter.bind(app));

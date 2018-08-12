@@ -2,14 +2,14 @@ import * as vscode from 'vscode';
 
 export type EscapeRule = [string, string];
 
-type LanguageConfig = {
-    template: string;
-    templateForNoExpression: string;
-    escapeRules: EscapeRule[]
+export type LanguageConfig = {
+    template?: string;
+    templateForNoExpression?: string;
+    escapeRules?: EscapeRule[]
 };
 
 export type PrintStatementSource = {
-    selectedExpression: string;
+    selectedExpression?: string;
     template: string;
     escapeRules: EscapeRule[];
 };
@@ -21,19 +21,19 @@ export default class PrintStatementSourceBuilder {
         this.extensionConfig = workspace.getConfiguration('putprint');
     }
 
-    build(languageId, selectedExpression): PrintStatementSource {
+    build(languageId: string, selectedExpression?: string): PrintStatementSource {
         const langConfig = this.extensionConfig.get(`printStatement.${languageId}`) as LanguageConfig;
         const defaultConfig = this.extensionConfig.get('printStatement.default') as LanguageConfig;
         const templateName = selectedExpression ? 'template' : 'templateForNoExpression';
         const config = this.isValidConfig(langConfig, templateName) ? langConfig : defaultConfig;
         return {
             selectedExpression,
-            template: config[templateName],
+            template: config[templateName]!,
             escapeRules: config.escapeRules || []
         };
     }
 
-    private isValidConfig(config, templateName) {
+    private isValidConfig(config: LanguageConfig, templateName: 'template' | 'templateForNoExpression'): boolean {
         const template = config && config[templateName];
         return typeof template === 'string' && template.length > 0;
     }

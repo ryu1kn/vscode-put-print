@@ -4,10 +4,11 @@ import PrintStatementCounter from './print-statement-counter';
 import PrintStatementGenerator from './print-statement-generator';
 import PrintStatementSourceBuilder from './print-statement-source-builder';
 import TextBuffer from './text-buffer';
+import {Logger} from './logger';
 
 export default class AppFactory {
 
-    create(vscode, logger) {
+    create(vscode: any, logger: Logger) {
         const counterInputBox = new CounterInputBox(vscode.window);
         const printStatementCounter = new PrintStatementCounter();
         const printStatementGenerator = new PrintStatementGenerator(printStatementCounter);

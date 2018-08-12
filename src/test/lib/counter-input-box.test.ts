@@ -41,7 +41,7 @@ suite('CounterInputBox', () => {
         const inputBox = new CounterInputBox(window);
         return inputBox.read().then(_result => {
             verify(window.showInputBox(captor.capture()));
-            const validate = captor.values[0].validateInput;
+            const validate = captor.values![0].validateInput;
             expect(validate('NON_NUMBER')).to.eql('Please specify a number');
         });
     });
@@ -53,8 +53,8 @@ suite('CounterInputBox', () => {
         const inputBox = new CounterInputBox(window);
         return inputBox.read().then(_result => {
             verify(window.showInputBox(captor.capture()));
-            const validate = captor.values[0].validateInput;
-            expect(validate('3')).to.eql(null);
+            const validate = captor.values![0].validateInput;
+            expect(validate('3')).to.eql('');
         });
     });
 

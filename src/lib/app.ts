@@ -4,6 +4,7 @@ import PrintStatementCounter from './print-statement-counter';
 import PrintStatementSourceBuilder from './print-statement-source-builder';
 import TextBuffer from './text-buffer';
 import {Logger} from './logger';
+import * as vscode from 'vscode';
 
 export default class App {
     private readonly counterInputBox: CounterInputBox;
@@ -27,7 +28,7 @@ export default class App {
         this.logger = logger;
     }
 
-    putPrintStatement(editor) {
+    putPrintStatement(editor: vscode.TextEditor) {
         return Promise.resolve().then(() => {
             const selectedExpression = this.textBuffer.read();
             const languageId = editor.document.languageId;
@@ -41,7 +42,7 @@ export default class App {
         });
     }
 
-    selectExpression(editor) {
+    selectExpression(editor: vscode.TextEditor) {
         try {
             this.textBuffer.write(this.getSelectedText(editor));
         } catch (e) {
@@ -57,11 +58,11 @@ export default class App {
         });
     }
 
-    private getSelectedText(editor) {
+    private getSelectedText(editor: vscode.TextEditor) {
         return editor.document.getText(editor.selection);
     }
 
-    private handleError(e) {
+    private handleError(e: Error) {
         this.logger.error(e.stack);
     }
 

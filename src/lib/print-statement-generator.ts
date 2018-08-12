@@ -1,5 +1,5 @@
 import PrintStatementCounter from './print-statement-counter';
-import {PrintStatementSource} from './print-statement-source-builder';
+import {EscapeRule, PrintStatementSource} from './print-statement-source-builder';
 
 const COUNT_PLACEHOLDER = '{{count}}';
 const EXPRESSION_ESCAPE_PLACEHOLDER = '{{selectedExpression|escape}}';
@@ -20,16 +20,16 @@ export default class PrintStatementGenerator {
         return this.replaceWithRules(params.template, replacePairs);
     }
 
-    private getReplacePairs(selectedText, escapedSelectedText, isCountUsed) {
+    private getReplacePairs(selectedText: string, escapedSelectedText: string, isCountUsed: boolean): EscapeRule[] {
         const countReplacePair = isCountUsed ?
-            [COUNT_PLACEHOLDER, this.printStatementCounter.getAndIncrement()] : [];
+            [COUNT_PLACEHOLDER, String(this.printStatementCounter.getAndIncrement())] : [];
         return [
             [EXPRESSION_PLACEHOLDER, selectedText],
             [EXPRESSION_ESCAPE_PLACEHOLDER, escapedSelectedText]
-        ].concat([countReplacePair]);
+        ].concat([countReplacePair]) as EscapeRule[];
     }
 
-    private replaceWithRules(text, replaceRules) {
+    private replaceWithRules(text: string, replaceRules: EscapeRule[]): string {
         const firstRule = replaceRules[0];
         if (!firstRule) return text;
 

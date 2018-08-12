@@ -1,33 +1,51 @@
 import {expect} from 'chai';
-import * as sinon from 'sinon';
 
-import PrintStatementSourceBuilder from '../../lib/print-statement-source-builder';
-import {mockType} from '../helper';
+import PrintStatementSourceBuilder, {LanguageConfig} from '../../lib/print-statement-source-builder';
+import {mockMethods, when} from '../helper';
 import * as vscode from 'vscode';
+import {ObjectMap} from '../../lib/types/collection';
 
 suite('PrintStatementSourceBuilder', () => {
 
+    const templateConfig: ObjectMap<LanguageConfig> = {
+        KNOWN_LANGUAGE: {
+            template: 'TEMPLATE',
+            escapeRules: [['ESCAPE_RULES', '']]
+        },
+        KNOWN_LANGUAGE_2: {
+            template: undefined
+        },
+        KNOWN_LANGUAGE_3: {
+            template: 'KNOWN_LANGUAGE_TEMPLATE'
+        },
+        KNOWN_LANGUAGE_4: {
+            template: 'TEMPLATE'
+        },
+        default: {
+            template: 'DEFAULT_TEMPLATE',
+            templateForNoExpression: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION'
+        }
+    };
+
+    const workspaceConfig = mockMethods<vscode.WorkspaceConfiguration>(['get']);
+    Object.keys(templateConfig).forEach(languageId => {
+        when(workspaceConfig.get(`printStatement.${languageId}`)).thenReturn(templateConfig[languageId]);
+    });
+    const workspace = mockMethods<typeof vscode.workspace>(['getConfiguration']);
+    when(workspace.getConfiguration('putprint')).thenReturn(workspaceConfig);
+
+    const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace);
+
     test('it returns a template config for the specified language', () => {
-        const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE', escapeRules: 'ESCAPE_RULES'}};
-        const workspace = fakeWorkspace(config);
-        const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
-        expect(printStatementSourceBuilder).to.eql({
+        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE', 'SELECTED_EXPRESSION')).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
-            escapeRules: 'ESCAPE_RULES'
+            escapeRules: [['ESCAPE_RULES', '']]
         });
     });
 
     test('it returns default template if one is not defined for the specified language', () => {
-        const config = {
-            KNOWN_LANGUAGE: {template: null},
-            default: {template: 'DEFAULT_TEMPLATE'}
-        };
-        const workspace = fakeWorkspace(config);
-        const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
-        expect(printStatementSourceBuilder).to.eql({
+        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_2', 'SELECTED_EXPRESSION')).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'DEFAULT_TEMPLATE',
             escapeRules: []
@@ -35,14 +53,7 @@ suite('PrintStatementSourceBuilder', () => {
     });
 
     test('it returns default config\'s "templateForNoExpression" if one is not defined for the specified language', () => {
-        const config = {
-            KNOWN_LANGUAGE: {template: 'KNOWN_LANGUAGE_TEMPLATE'},
-            default: {templateForNoExpression: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION'}
-        };
-        const workspace = fakeWorkspace(config);
-        const selectedExpression = undefined;
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
-        expect(printStatementSourceBuilder).to.eql({
+        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_3', undefined)).to.eql({
             selectedExpression: undefined,
             template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION',
             escapeRules: []
@@ -50,23 +61,10 @@ suite('PrintStatementSourceBuilder', () => {
     });
 
     test('it sets an empty list for escapeRules if it is not specified', () => {
-        const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE'}};
-        const workspace = fakeWorkspace(config);
-        const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
-        expect(printStatementSourceBuilder).to.eql({
+        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_4', 'SELECTED_EXPRESSION')).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
             escapeRules: []
         });
     });
-
-    function fakeWorkspace(templates) {
-        templates = templates || {};
-        const stub = sinon.stub();
-        Object.keys(templates).forEach(languageId => {
-            stub.withArgs(`printStatement.${languageId}`).returns(templates[languageId]);
-        });
-        return mockType<typeof vscode.workspace>({getConfiguration: sinon.stub().returns({get: stub})});
-    }
 });

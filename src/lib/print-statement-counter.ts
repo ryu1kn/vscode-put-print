@@ -10,8 +10,8 @@ export default class PrintStatementCounter {
         return this.count++;
     }
 
-    reset(number) {
-        this.count = number;
+    reset(n: number) {
+        this.count = n;
     }
 
 }
