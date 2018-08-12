@@ -9,17 +9,17 @@ type LanguageConfig = {
 };
 
 export default class PrintStatementSourceBuilder {
-    private _extensionConfig: vscode.WorkspaceConfiguration;
+    private readonly extensionConfig: vscode.WorkspaceConfiguration;
 
     constructor(params) {
-        this._extensionConfig = params.workspace.getConfiguration('putprint');
+        this.extensionConfig = params.workspace.getConfiguration('putprint');
     }
 
     build(languageId, selectedExpression) {
-        const langConfig = this._extensionConfig.get(`printStatement.${languageId}`) as LanguageConfig;
-        const defaultConfig = this._extensionConfig.get('printStatement.default') as LanguageConfig;
+        const langConfig = this.extensionConfig.get(`printStatement.${languageId}`) as LanguageConfig;
+        const defaultConfig = this.extensionConfig.get('printStatement.default') as LanguageConfig;
         const templateName = selectedExpression ? 'template' : 'templateForNoExpression';
-        const config = this._isValidConfig(langConfig, templateName) ? langConfig : defaultConfig;
+        const config = this.isValidConfig(langConfig, templateName) ? langConfig : defaultConfig;
         return {
             selectedExpression,
             template: config[templateName],
@@ -27,7 +27,7 @@ export default class PrintStatementSourceBuilder {
         };
     }
 
-    _isValidConfig(config, templateName) {
+    private isValidConfig(config, templateName) {
         const template = config && config[templateName];
         return typeof template === 'string' && template.length > 0;
     }

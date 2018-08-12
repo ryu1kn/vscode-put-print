@@ -1,13 +1,13 @@
 
 export default class TextBuffer {
-    private _text: string;
+    private text: string;
 
     write(text) {
-        this._text = text;
+        this.text = text;
     }
 
     read() {
-        return this._text;
+        return this.text;
     }
 
 }

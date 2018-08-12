@@ -1,17 +1,17 @@
 
 export default class PrintStatementCounter {
-    private _count: number;
+    private count: number;
 
     constructor() {
-        this._count = 0;
+        this.count = 0;
     }
 
     getAndIncrement() {
-        return this._count++;
+        return this.count++;
     }
 
     reset(number) {
-        this._count = number;
+        this.count = number;
     }
 
 }
