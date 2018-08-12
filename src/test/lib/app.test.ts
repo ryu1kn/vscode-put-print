@@ -6,7 +6,6 @@ import CounterInputBox from '../../lib/counter-input-box';
 import TextBuffer from '../../lib/text-buffer';
 import PrintStatementSourceBuilder, {PrintStatementSource} from '../../lib/print-statement-source-builder';
 import PrintStatementCounter from '../../lib/print-statement-counter';
-import * as vscode from 'vscode';
 import {Range, TextEditor, TextEditorEdit} from 'vscode';
 
 suite('App', () => {
@@ -46,7 +45,7 @@ suite('App', () => {
 
         test('it replaces the selected text with a print statement composed from a selected expression', () => {
             const selection = mockType<Range>({text: 'TEXT_TO_REPLACE', isEmpty: false});
-            const editBuilder = mockMethods<vscode.TextEditorEdit>(['replace']);
+            const editBuilder = mockMethods<TextEditorEdit>(['replace']);
             const editor = fakeEditor('TEXT_TO_REPLACE', 'LANGUAGE_ID', editBuilder);
             const printStatementSourceBuilder = mock(PrintStatementSourceBuilder);
             when(printStatementSourceBuilder.build('LANGUAGE_ID', 'SAVED_TEXT')).thenReturn(templateSource);
@@ -63,7 +62,7 @@ suite('App', () => {
 
         test("it puts print statement even if an expression hasn't been selected", () => {
             const selection = mockType<Range>({text: 'TEXT_TO_REPLACE', isEmpty: false});
-            const editBuilder = mockMethods<vscode.TextEditorEdit>(['replace']);
+            const editBuilder = mockMethods<TextEditorEdit>(['replace']);
             const editor = fakeEditor('TEXT_TO_REPLACE', 'LANGUAGE_ID', editBuilder);
             const printStatementSourceBuilder = mock(PrintStatementSourceBuilder);
             when(printStatementSourceBuilder.build('LANGUAGE_ID', undefined)).thenReturn(templateSource);

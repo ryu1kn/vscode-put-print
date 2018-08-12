@@ -1,5 +1,4 @@
-import {expect} from 'chai';
-
+import * as assert from 'assert';
 import PrintStatementSourceBuilder, {LanguageConfig} from '../../lib/print-statement-source-builder';
 import {mockMethods, when} from '../helper';
 import * as vscode from 'vscode';
@@ -37,7 +36,7 @@ suite('PrintStatementSourceBuilder', () => {
     const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace);
 
     test('it returns a template config for the specified language', () => {
-        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE', 'SELECTED_EXPRESSION')).to.eql({
+        assert.deepEqual(printStatementSourceBuilder.build('KNOWN_LANGUAGE', 'SELECTED_EXPRESSION'), {
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
             escapeRules: [['ESCAPE_RULES', '']]
@@ -45,7 +44,7 @@ suite('PrintStatementSourceBuilder', () => {
     });
 
     test('it returns default template if one is not defined for the specified language', () => {
-        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_2', 'SELECTED_EXPRESSION')).to.eql({
+        assert.deepEqual(printStatementSourceBuilder.build('KNOWN_LANGUAGE_2', 'SELECTED_EXPRESSION'), {
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'DEFAULT_TEMPLATE',
             escapeRules: []
@@ -53,7 +52,7 @@ suite('PrintStatementSourceBuilder', () => {
     });
 
     test('it returns default config\'s "templateForNoExpression" if one is not defined for the specified language', () => {
-        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_3', undefined)).to.eql({
+        assert.deepEqual(printStatementSourceBuilder.build('KNOWN_LANGUAGE_3', undefined), {
             selectedExpression: undefined,
             template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION',
             escapeRules: []
@@ -61,7 +60,7 @@ suite('PrintStatementSourceBuilder', () => {
     });
 
     test('it sets an empty list for escapeRules if it is not specified', () => {
-        expect(printStatementSourceBuilder.build('KNOWN_LANGUAGE_4', 'SELECTED_EXPRESSION')).to.eql({
+        assert.deepEqual(printStatementSourceBuilder.build('KNOWN_LANGUAGE_4', 'SELECTED_EXPRESSION'), {
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
             escapeRules: []

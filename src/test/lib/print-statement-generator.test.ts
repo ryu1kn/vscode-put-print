@@ -1,5 +1,4 @@
-import {expect} from 'chai';
-
+import * as assert from 'assert';
 import PrintStatementGenerator from '../../lib/print-statement-generator';
 import PrintStatementCounter from '../../lib/print-statement-counter';
 import {mock, mockMethods, verify, when} from '../helper';
@@ -17,7 +16,7 @@ suite('PrintStatementGenerator', () => {
             escapeRules: []
         };
         const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
-        expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
+        assert.deepEqual(printStatement, "console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
     test('it behaves as if an empty string is selected if no text is selected', () => {
@@ -27,7 +26,7 @@ suite('PrintStatementGenerator', () => {
             escapeRules: []
         };
         const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
-        expect(printStatement).to.eql("console.log('Checking ...');");
+        assert.deepEqual(printStatement, "console.log('Checking ...');");
     });
 
     test('it escapes the expression when injecting into a template if "|escape" is specified', () => {
@@ -37,7 +36,7 @@ suite('PrintStatementGenerator', () => {
             escapeRules: [["'", "\\'"]] as EscapeRule[]
         };
         const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
-        expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
+        assert.deepEqual(printStatement, "console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
     test("it won't replace the variable parts more than once", () => {
@@ -47,7 +46,7 @@ suite('PrintStatementGenerator', () => {
             escapeRules: [["'", "\\'"]] as EscapeRule[]
         };
         const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
-        expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
+        assert.deepEqual(printStatement, '{{selectedExpression}}{{selectedExpression}}');
     });
 
     test('it replaces {{count}} placeholder in the template with a count value', () => {
@@ -60,7 +59,7 @@ suite('PrintStatementGenerator', () => {
         when(printStatementCounter.getAndIncrement()).thenReturn(4);
         const printStatementGenerator = new PrintStatementGenerator(printStatementCounter);
         const printStatement = printStatementGenerator.generate(printStatementSource);
-        expect(printStatement).to.eql('DEBUG-4');
+        assert.deepEqual(printStatement, 'DEBUG-4');
     });
 
     test("it won't increment the counter if {{count}} placeholder doesn't appear in the template", () => {

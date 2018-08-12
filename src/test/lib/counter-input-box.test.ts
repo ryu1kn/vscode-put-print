@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import * as assert from 'assert';
 import {argCaptor, contains, mockMethods, mockType, verify, when} from '../helper';
 
 import CounterInputBox from '../../lib/counter-input-box';
@@ -14,7 +14,7 @@ suite('CounterInputBox', () => {
         }))).thenResolve('3');
         const inputBox = new CounterInputBox(window);
         return inputBox.read().then(result => {
-            expect(result).to.eql(3);
+            assert.deepEqual(result, 3);
         });
     });
 
@@ -22,7 +22,7 @@ suite('CounterInputBox', () => {
         const window = mockType<typeof vscode.window>({showInputBox: () => Promise.resolve()});
         const inputBox = new CounterInputBox(window);
         return inputBox.read().then(result => {
-            expect(result).to.be.null;
+            assert.deepEqual(result, null);
         });
     });
 
@@ -30,7 +30,7 @@ suite('CounterInputBox', () => {
         const window = mockType<typeof vscode.window>({showInputBox: () => Promise.resolve('')});
         const inputBox = new CounterInputBox(window);
         return inputBox.read().then(result => {
-            expect(result).to.eql(0);
+            assert.deepEqual(result, 0);
         });
     });
 
@@ -42,7 +42,7 @@ suite('CounterInputBox', () => {
         return inputBox.read().then(_result => {
             verify(window.showInputBox(captor.capture()));
             const validate = captor.values![0].validateInput;
-            expect(validate('NON_NUMBER')).to.eql('Please specify a number');
+            assert.deepEqual(validate('NON_NUMBER'), 'Please specify a number');
         });
     });
 
@@ -54,7 +54,7 @@ suite('CounterInputBox', () => {
         return inputBox.read().then(_result => {
             verify(window.showInputBox(captor.capture()));
             const validate = captor.values![0].validateInput;
-            expect(validate('3')).to.eql('');
+            assert.deepEqual(validate('3'), '');
         });
     });
 

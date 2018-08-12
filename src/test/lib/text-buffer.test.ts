@@ -1,5 +1,4 @@
-import {expect} from 'chai';
-
+import * as assert from 'assert';
 import TextBuffer from '../../lib/text-buffer';
 
 suite('TextBuffer', () => {
@@ -7,6 +6,6 @@ suite('TextBuffer', () => {
     test('it can store one text', () => {
         const textBuffer = new TextBuffer();
         textBuffer.write('TEXT');
-        expect(textBuffer.read()).to.eql('TEXT');
+        assert.deepEqual(textBuffer.read(), 'TEXT');
     });
 });
