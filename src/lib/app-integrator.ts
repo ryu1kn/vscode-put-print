@@ -1,7 +1,11 @@
+import App from './app';
+import * as vscode from 'vscode';
 
 const EXTENSION_NAMESPACE = 'putprint';
 
-class AppIntegrator {
+export default class AppIntegrator {
+    private _app: App;
+    private _vscode: typeof vscode;
 
     constructor(params) {
         this._app = params.app;
@@ -33,5 +37,3 @@ class AppIntegrator {
     }
 
 }
-
-module.exports = AppIntegrator;

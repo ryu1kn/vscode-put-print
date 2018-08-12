@@ -1,12 +1,11 @@
+import App from './app';
+import CounterInputBox from './counter-input-box';
+import PrintStatementCounter from './print-statement-counter';
+import PrintStatementGenerator from './print-statement-generator';
+import PrintStatementSourceBuilder from './print-statement-source-builder';
+import TextBuffer from './text-buffer';
 
-const App = require('./app');
-const CounterInputBox = require('./counter-input-box');
-const PrintStatementCounter = require('./print-statement-counter');
-const PrintStatementGenerator = require('./print-statement-generator');
-const PrintStatementSourceBuilder = require('./print-statement-source-builder');
-const TextBuffer = require('./text-buffer');
-
-class AppFactory {
+export default class AppFactory {
 
     create(vscode, logger) {
         const counterInputBox = new CounterInputBox({window: vscode.window});
@@ -25,5 +24,3 @@ class AppFactory {
     }
 
 }
-
-module.exports = AppFactory;

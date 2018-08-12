@@ -1,5 +1,7 @@
+import * as vscode from 'vscode';
 
-class CounterInputBox {
+export default class CounterInputBox {
+    private _window: typeof vscode.window;
 
     constructor(params) {
         this._window = params.window;
@@ -22,5 +24,3 @@ class CounterInputBox {
     }
 
 }
-
-module.exports = CounterInputBox;

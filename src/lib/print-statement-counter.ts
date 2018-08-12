@@ -1,5 +1,6 @@
 
-class PrintStatementCounter {
+export default class PrintStatementCounter {
+    private _count: number;
 
     constructor() {
         this._count = 0;
@@ -14,5 +15,3 @@ class PrintStatementCounter {
     }
 
 }
-
-module.exports = PrintStatementCounter;

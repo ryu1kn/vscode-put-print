@@ -1,5 +1,6 @@
+import {expect} from 'chai';
 
-const PrintStatementCounter = require('../../lib/print-statement-counter');
+import PrintStatementCounter from '../../lib/print-statement-counter';
 
 suite('PrintStatementCounter', () => {
 

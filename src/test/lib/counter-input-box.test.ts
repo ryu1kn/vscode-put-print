@@ -1,5 +1,7 @@
+import {expect} from 'chai';
+import * as sinon from 'sinon';
 
-const CounterInputBox = require('../../lib/counter-input-box');
+import CounterInputBox from '../../lib/counter-input-box';
 
 suite('CounterInputBox', () => {
 

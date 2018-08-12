@@ -1,13 +1,23 @@
+import * as vscode from 'vscode';
 
-class PrintStatementSourceBuilder {
+type EscapeRule = [string, string];
+
+type LanguageConfig = {
+    template: string;
+    templateForNoExpression: string;
+    escapeRules: EscapeRule[]
+};
+
+export default class PrintStatementSourceBuilder {
+    private _extensionConfig: vscode.WorkspaceConfiguration;
 
     constructor(params) {
         this._extensionConfig = params.workspace.getConfiguration('putprint');
     }
 
     build(languageId, selectedExpression) {
-        const langConfig = this._extensionConfig.get(`printStatement.${languageId}`);
-        const defaultConfig = this._extensionConfig.get('printStatement.default');
+        const langConfig = this._extensionConfig.get(`printStatement.${languageId}`) as LanguageConfig;
+        const defaultConfig = this._extensionConfig.get('printStatement.default') as LanguageConfig;
         const templateName = selectedExpression ? 'template' : 'templateForNoExpression';
         const config = this._isValidConfig(langConfig, templateName) ? langConfig : defaultConfig;
         return {
@@ -23,5 +33,3 @@ class PrintStatementSourceBuilder {
     }
 
 }
-
-module.exports = PrintStatementSourceBuilder;

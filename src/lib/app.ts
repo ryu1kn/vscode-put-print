@@ -1,5 +1,17 @@
+import CounterInputBox from './counter-input-box';
+import PrintStatementGenerator from './print-statement-generator';
+import PrintStatementCounter from './print-statement-counter';
+import PrintStatementSourceBuilder from './print-statement-source-builder';
+import TextBuffer from './text-buffer';
+import {Logger} from './logger';
 
-class App {
+export default class App {
+    private _counterInputBox: CounterInputBox;
+    private _printStatementGenerator: PrintStatementGenerator;
+    private _printStatementCounter: PrintStatementCounter;
+    private _printStatementSourceBuilder: PrintStatementSourceBuilder;
+    private _textBuffer: TextBuffer;
+    private _logger: Logger;
 
     constructor(params) {
         this._counterInputBox = params.counterInputBox;
@@ -49,5 +61,3 @@ class App {
     }
 
 }
-
-module.exports = App;

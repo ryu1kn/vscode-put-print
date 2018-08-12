@@ -1,5 +1,6 @@
+import {expect} from 'chai';
 
-const TextBuffer = require('../../lib/text-buffer');
+import TextBuffer from '../../lib/text-buffer';
 
 suite('TextBuffer', () => {
 

@@ -1,9 +1,11 @@
+import PrintStatementCounter from './print-statement-counter';
 
 const COUNT_PLACEHOLDER = '{{count}}';
 const EXPRESSION_ESCAPE_PLACEHOLDER = '{{selectedExpression|escape}}';
 const EXPRESSION_PLACEHOLDER = '{{selectedExpression}}';
 
-class PrintStatementGenerator {
+export default class PrintStatementGenerator {
+    private _printStatementCounter: PrintStatementCounter;
 
     constructor(params) {
         this._printStatementCounter = params.printStatementCounter;
@@ -36,5 +38,3 @@ class PrintStatementGenerator {
     }
 
 }
-
-module.exports = PrintStatementGenerator;

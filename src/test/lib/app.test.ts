@@ -1,5 +1,7 @@
-
-const App = require('../../lib/app');
+import {expect} from 'chai';
+import * as sinon from 'sinon';
+import {stubWithArgs} from '../helper';
+import App from '../../lib/app';
 
 suite('App', () => {
 
@@ -9,7 +11,7 @@ suite('App', () => {
             const editor = fakeEditor('SELECTED_TEXT', 'LANGUAGE_ID');
             const textBuffer = {write: sinon.spy()};
             new App({textBuffer}).selectExpression(editor);
-            expect(textBuffer.write).to.have.been.calledWith('SELECTED_TEXT');
+            expect(textBuffer.write.args[0]).to.eql(['SELECTED_TEXT']);
         });
 
         test('it prints callstack if unhandled exception occurred', () => {
@@ -70,7 +72,7 @@ suite('App', () => {
             const counterInputBox = {read: sinon.stub().returns(Promise.resolve(24))};
             const app = new App({printStatementCounter, counterInputBox, logger});
             return app.resetCounter().then(() => {
-                expect(printStatementCounter.reset).to.have.been.calledWith(24);
+                expect(printStatementCounter.reset.args[0]).to.eql([24]);
             });
         });
 
@@ -80,7 +82,7 @@ suite('App', () => {
             const counterInputBox = {read: sinon.stub().returns(Promise.resolve(null))};
             const app = new App({printStatementCounter, counterInputBox, logger});
             return app.resetCounter().then(() => {
-                expect(printStatementCounter.reset).to.have.been.not.called;
+                expect(printStatementCounter.reset.callCount).to.eql(0);
             });
         });
 
@@ -97,7 +99,7 @@ suite('App', () => {
         });
     });
 
-    function fakeEditor(selectedText, languageId) {
+    function fakeEditor(selectedText, languageId?) {
         return {
             selection: {
                 text: selectedText,

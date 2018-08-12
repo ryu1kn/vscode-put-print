@@ -32,7 +32,7 @@
     "onCommand:putprint.resetCounter",
     "onCommand:putprint.selectExpression"
   ],
-  "main": "./extension",
+  "main": "./out/extension",
   "contributes": {
     "configuration": {
       "type": "object",
@@ -143,20 +143,29 @@
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "coverage": "nyc yarn test",
-    "lint": "eslint .",
-    "test": "mocha --opts ./test/cli-test-mocha.opts",
-    "test-mode": "mocha --opts ./test/cli-test-mocha.opts --watch"
+    "lint": "tslint -p .",
+    "test": "mocha --opts cli-test-mocha.opts",
+    "test-mode": "mocha --opts cli-test-mocha.opts --watch",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "prep": "yarn run lint && yarn run compile && yarn test",
+    "vscode:prepublish": "yarn run compile",
+    "vscode:postpublish": "./tag-release.sh"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^7.0.67",
+    "@types/sinon": "^5.0.1",
     "chai": "^4.1.2",
     "codeclimate-test-reporter": "^0.5.0",
-    "eslint": "^4.19.1",
-    "eslint-config-xo": "^0.22.1",
-    "istanbul": "^0.4.5",
     "mocha": "^5.1.1",
     "nyc": "^11.7.3",
     "sinon": "^5.0.7",
     "sinon-chai": "^3.0.0",
-    "vscode": "^1.1.17"
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "vscode": "^1.1.18"
   }
 }

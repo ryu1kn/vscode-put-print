@@ -1,5 +1,0 @@
---require test/stub-vscode.js
---require test/bootstrap.js
---recursive
---ui tdd
-test

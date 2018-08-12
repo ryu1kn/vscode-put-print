@@ -1,5 +1,7 @@
+import {expect} from 'chai';
+import * as sinon from 'sinon';
 
-const PrintStatementGenerator = require('../../lib/print-statement-generator');
+import PrintStatementGenerator from '../../lib/print-statement-generator';
 
 suite('PrintStatementGenerator', () => {
 
@@ -68,6 +70,6 @@ suite('PrintStatementGenerator', () => {
         const printStatementCounter = {getAndIncrement: sinon.spy()};
         const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
         printStatementGenerator.generate(printStatementSource);
-        expect(printStatementCounter.getAndIncrement).to.have.been.not.called;
+        expect(printStatementCounter.getAndIncrement.callCount).to.eql(0);
     });
 });

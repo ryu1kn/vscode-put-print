@@ -1,5 +1,7 @@
+import {expect} from 'chai';
+import * as sinon from 'sinon';
 
-const PrintStatementSourceBuilder = require('../../lib/print-statement-source-builder');
+import PrintStatementSourceBuilder from '../../lib/print-statement-source-builder';
 
 suite('PrintStatementSourceBuilder', () => {
 
