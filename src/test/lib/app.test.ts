@@ -1,4 +1,3 @@
-import * as sinon from 'sinon';
 import {any, contains, mock, mockMethods, mockType, verify, when} from '../helper';
 import App from '../../lib/app';
 import PrintStatementGenerator from '../../lib/print-statement-generator';
@@ -134,7 +133,7 @@ suite('App', () => {
                 isEmpty: !selectedText
             },
             document: {
-                getText: sinon.stub().returns(selectedText),
+                getText: () => selectedText,
                 languageId: languageId
             },
             edit: function (callback: any) {

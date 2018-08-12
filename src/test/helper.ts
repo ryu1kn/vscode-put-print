@@ -1,14 +1,5 @@
-import * as sinon from 'sinon';
 import * as td from 'testdouble';
 import * as assert from 'assert';
-
-export const stubWithArgs = (...args: any[]) => {
-    const stub = sinon.stub();
-    for (let i = 0; i + 1 < args.length; i += 2) {
-        stub.withArgs.apply(stub, args[i]).returns(args[i + 1]);
-    }
-    return stub;
-};
 
 export function mock<T>(c: new (...args: any[]) => T): T {
     return new (td.constructor(c));
