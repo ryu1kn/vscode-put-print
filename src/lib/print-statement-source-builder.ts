@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-type EscapeRule = [string, string];
+export type EscapeRule = [string, string];
 
 type LanguageConfig = {
     template: string;
@@ -8,14 +8,20 @@ type LanguageConfig = {
     escapeRules: EscapeRule[]
 };
 
+export type PrintStatementSource = {
+    selectedExpression: string;
+    template: string;
+    escapeRules: EscapeRule[];
+};
+
 export default class PrintStatementSourceBuilder {
     private readonly extensionConfig: vscode.WorkspaceConfiguration;
 
-    constructor(params) {
-        this.extensionConfig = params.workspace.getConfiguration('putprint');
+    constructor(workspace: typeof vscode.workspace) {
+        this.extensionConfig = workspace.getConfiguration('putprint');
     }
 
-    build(languageId, selectedExpression) {
+    build(languageId, selectedExpression): PrintStatementSource {
         const langConfig = this.extensionConfig.get(`printStatement.${languageId}`) as LanguageConfig;
         const defaultConfig = this.extensionConfig.get('printStatement.default') as LanguageConfig;
         const templateName = selectedExpression ? 'template' : 'templateForNoExpression';

@@ -6,7 +6,7 @@ export default class AppIntegratorFactory {
 
     create() {
         const app = new AppFactory().create(vscode, console);
-        return new AppIntegrator({app, vscode});
+        return new AppIntegrator(app, vscode);
     }
 
 }

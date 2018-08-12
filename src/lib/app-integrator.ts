@@ -1,15 +1,14 @@
 import App from './app';
-import * as vscode from 'vscode';
 
 const EXTENSION_NAMESPACE = 'putprint';
 
 export default class AppIntegrator {
     private readonly app: App;
-    private readonly vscode: typeof vscode;
+    private readonly vscode: any;
 
-    constructor(params) {
-        this.app = params.app;
-        this.vscode = params.vscode;
+    constructor(app: App, vscode: any) {
+        this.app = app;
+        this.vscode = vscode;
     }
 
     integrate(context) {

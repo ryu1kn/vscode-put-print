@@ -8,19 +8,12 @@ import TextBuffer from './text-buffer';
 export default class AppFactory {
 
     create(vscode, logger) {
-        const counterInputBox = new CounterInputBox({window: vscode.window});
+        const counterInputBox = new CounterInputBox(vscode.window);
         const printStatementCounter = new PrintStatementCounter();
-        const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace: vscode.workspace});
+        const printStatementGenerator = new PrintStatementGenerator(printStatementCounter);
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder(vscode.workspace);
         const textBuffer = new TextBuffer();
-        return new App({
-            counterInputBox,
-            printStatementGenerator,
-            printStatementCounter,
-            printStatementSourceBuilder,
-            textBuffer,
-            logger
-        });
+        return new App(printStatementGenerator, printStatementCounter, printStatementSourceBuilder, textBuffer, counterInputBox, logger);
     }
 
 }

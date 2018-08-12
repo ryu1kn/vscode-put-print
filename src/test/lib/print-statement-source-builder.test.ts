@@ -2,6 +2,8 @@ import {expect} from 'chai';
 import * as sinon from 'sinon';
 
 import PrintStatementSourceBuilder from '../../lib/print-statement-source-builder';
+import {mockType} from '../helper';
+import * as vscode from 'vscode';
 
 suite('PrintStatementSourceBuilder', () => {
 
@@ -9,7 +11,7 @@ suite('PrintStatementSourceBuilder', () => {
         const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE', escapeRules: 'ESCAPE_RULES'}};
         const workspace = fakeWorkspace(config);
         const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', selectedExpression);
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
         expect(printStatementSourceBuilder).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
@@ -24,7 +26,7 @@ suite('PrintStatementSourceBuilder', () => {
         };
         const workspace = fakeWorkspace(config);
         const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', selectedExpression);
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
         expect(printStatementSourceBuilder).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'DEFAULT_TEMPLATE',
@@ -39,7 +41,7 @@ suite('PrintStatementSourceBuilder', () => {
         };
         const workspace = fakeWorkspace(config);
         const selectedExpression = undefined;
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', selectedExpression);
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
         expect(printStatementSourceBuilder).to.eql({
             selectedExpression: undefined,
             template: 'DEFAULT_TEMPLATE_FOR_NO_EXPRESSION',
@@ -51,7 +53,7 @@ suite('PrintStatementSourceBuilder', () => {
         const config = {KNOWN_LANGUAGE: {template: 'TEMPLATE'}};
         const workspace = fakeWorkspace(config);
         const selectedExpression = 'SELECTED_EXPRESSION';
-        const printStatementSourceBuilder = new PrintStatementSourceBuilder({workspace}).build('KNOWN_LANGUAGE', selectedExpression);
+        const printStatementSourceBuilder = new PrintStatementSourceBuilder(workspace).build('KNOWN_LANGUAGE', selectedExpression);
         expect(printStatementSourceBuilder).to.eql({
             selectedExpression: 'SELECTED_EXPRESSION',
             template: 'TEMPLATE',
@@ -65,6 +67,6 @@ suite('PrintStatementSourceBuilder', () => {
         Object.keys(templates).forEach(languageId => {
             stub.withArgs(`printStatement.${languageId}`).returns(templates[languageId]);
         });
-        return {getConfiguration: sinon.stub().returns({get: stub})};
+        return mockType<typeof vscode.workspace>({getConfiguration: sinon.stub().returns({get: stub})});
     }
 });

@@ -1,9 +1,14 @@
 import {expect} from 'chai';
-import * as sinon from 'sinon';
 
 import PrintStatementGenerator from '../../lib/print-statement-generator';
+import PrintStatementCounter from '../../lib/print-statement-counter';
+import {mock, mockMethods, verify, when} from '../helper';
+import {EscapeRule} from '../../lib/print-statement-source-builder';
 
 suite('PrintStatementGenerator', () => {
+
+    const printStatementCounter = mock(PrintStatementCounter);
+    when(printStatementCounter.getAndIncrement()).thenReturn(0);
 
     test('it replaces the selected expression with a print statement', () => {
         const printStatementSource = {
@@ -11,8 +16,7 @@ suite('PrintStatementGenerator', () => {
             template: "console.log('{{selectedExpression}}:', {{selectedExpression}});",
             escapeRules: []
         };
-        const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
+        const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
         expect(printStatement).to.eql("console.log('SELECTED_EXPRESSION:', SELECTED_EXPRESSION);");
     });
 
@@ -22,8 +26,7 @@ suite('PrintStatementGenerator', () => {
             template: "console.log('Checking {{selectedExpression}}...');",
             escapeRules: []
         };
-        const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
+        const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
         expect(printStatement).to.eql("console.log('Checking ...');");
     });
 
@@ -31,10 +34,9 @@ suite('PrintStatementGenerator', () => {
         const printStatementSource = {
             selectedExpression: "fn('TEXT')",
             template: "console.log('{{selectedExpression|escape}}:', {{selectedExpression}});",
-            escapeRules: [["'", "\\'"]]
+            escapeRules: [["'", "\\'"]] as EscapeRule[]
         };
-        const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
+        const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
         expect(printStatement).to.eql("console.log('fn(\\'TEXT\\'):', fn('TEXT'));");
     });
 
@@ -42,10 +44,9 @@ suite('PrintStatementGenerator', () => {
         const printStatementSource = {
             selectedExpression: '{{selectedExpression}}{{selectedExpression}}',
             template: '{{selectedExpression|escape}}',
-            escapeRules: [["'", "\\'"]]
+            escapeRules: [["'", "\\'"]] as EscapeRule[]
         };
-        const printStatementCounter = {getAndIncrement: () => 0};
-        const printStatement = new PrintStatementGenerator({printStatementCounter}).generate(printStatementSource);
+        const printStatement = new PrintStatementGenerator(printStatementCounter).generate(printStatementSource);
         expect(printStatement).to.eql('{{selectedExpression}}{{selectedExpression}}');
     });
 
@@ -55,8 +56,9 @@ suite('PrintStatementGenerator', () => {
             template: 'DEBUG-{{count}}',
             escapeRules: []
         };
-        const printStatementCounter = {getAndIncrement: () => 4};
-        const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
+        const printStatementCounter = mock(PrintStatementCounter);
+        when(printStatementCounter.getAndIncrement()).thenReturn(4);
+        const printStatementGenerator = new PrintStatementGenerator(printStatementCounter);
         const printStatement = printStatementGenerator.generate(printStatementSource);
         expect(printStatement).to.eql('DEBUG-4');
     });
@@ -67,9 +69,9 @@ suite('PrintStatementGenerator', () => {
             template: 'TEMPLATE_WITH_NO_COUNTER',
             escapeRules: []
         };
-        const printStatementCounter = {getAndIncrement: sinon.spy()};
-        const printStatementGenerator = new PrintStatementGenerator({printStatementCounter});
+        const printStatementCounter = mockMethods<PrintStatementCounter>(['getAndIncrement']);
+        const printStatementGenerator = new PrintStatementGenerator(printStatementCounter);
         printStatementGenerator.generate(printStatementSource);
-        expect(printStatementCounter.getAndIncrement.callCount).to.eql(0);
+        verify(printStatementCounter.getAndIncrement(), {times: 0});
     });
 });

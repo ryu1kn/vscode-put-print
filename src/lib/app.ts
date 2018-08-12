@@ -13,13 +13,18 @@ export default class App {
     private readonly textBuffer: TextBuffer;
     private readonly logger: Logger;
 
-    constructor(params) {
-        this.counterInputBox = params.counterInputBox;
-        this.printStatementGenerator = params.printStatementGenerator;
-        this.printStatementCounter = params.printStatementCounter;
-        this.printStatementSourceBuilder = params.printStatementSourceBuilder;
-        this.textBuffer = params.textBuffer;
-        this.logger = params.logger;
+    constructor(printStatementGenerator: PrintStatementGenerator,
+                printStatementCounter: PrintStatementCounter,
+                printStatementSourceBuilder: PrintStatementSourceBuilder,
+                textBuffer: TextBuffer,
+                counterInputBox: CounterInputBox,
+                logger: Logger) {
+        this.counterInputBox = counterInputBox;
+        this.printStatementGenerator = printStatementGenerator;
+        this.printStatementCounter = printStatementCounter;
+        this.printStatementSourceBuilder = printStatementSourceBuilder;
+        this.textBuffer = textBuffer;
+        this.logger = logger;
     }
 
     putPrintStatement(editor) {

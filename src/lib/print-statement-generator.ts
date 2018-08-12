@@ -1,4 +1,5 @@
 import PrintStatementCounter from './print-statement-counter';
+import {PrintStatementSource} from './print-statement-source-builder';
 
 const COUNT_PLACEHOLDER = '{{count}}';
 const EXPRESSION_ESCAPE_PLACEHOLDER = '{{selectedExpression|escape}}';
@@ -7,11 +8,11 @@ const EXPRESSION_PLACEHOLDER = '{{selectedExpression}}';
 export default class PrintStatementGenerator {
     private readonly printStatementCounter: PrintStatementCounter;
 
-    constructor(params) {
-        this.printStatementCounter = params.printStatementCounter;
+    constructor(printStatementCounter: PrintStatementCounter) {
+        this.printStatementCounter = printStatementCounter;
     }
 
-    generate(params) {
+    generate(params: PrintStatementSource) {
         const selectedExpression = params.selectedExpression || '';
         const escapedSelectedExpression = this.replaceWithRules(selectedExpression, params.escapeRules);
         const isCountUsed = params.template.includes(COUNT_PLACEHOLDER);
