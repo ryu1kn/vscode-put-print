@@ -22,6 +22,15 @@ Put sequence number to your print statements.
 ![Put print with counter](https://raw.githubusercontent.com/ryu1kn/vscode-put-print/master/images/animations/print-statement-with-counter.gif)
 
 
+## Request Features or Report Bugs
+
+Feature requests and bug reports are very welcome: https://github.com/ryu1kn/vscode-put-print/issues
+
+A couple of requests from me when you raise an github issue.
+
+* **Requesting a feature:** Please try to provide the context of why you want the feature. Such as, in what situation the feature could help you and how, or how the lack of the feature is causing an inconvenience to you. I can't think of introducing it until I understand how it helps you 🙂
+* **Reporting a bug:** Please include environment information (OS name/version, the editor version). Also consider providing screenshots (or even videos) where appropriate. They are often very very helpful!
+
 ## Commands
 
 * `PrintDebug: Select Expression for Composing Print Statement`
@@ -90,10 +99,6 @@ For example, a print statement for javascript is, by default, provided as follow
 If you haven't specified a print statement template for the language you're working on, default template,
 which is either `putprint.printStatement.default.template` or `putprint.printStatement.default.templateForNoExpression`,
 depending on whether you're currently selecting an expression, will be used.
-
-## Request Features or Report Bugs
-
-* https://github.com/ryu1kn/vscode-put-print/issues
 
 ## Changelog
 
