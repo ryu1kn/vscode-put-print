@@ -153,15 +153,15 @@
     "vscode:postpublish": "./tag-release.sh"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^7.0.67",
-    "codeclimate-test-reporter": "^0.5.0",
-    "mocha": "^5.2.0",
-    "nyc": "^11.7.3",
-    "testdouble": "^3.8.1",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.1",
-    "vscode": "^1.1.18"
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.11.0",
+    "codeclimate-test-reporter": "^0.5.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "testdouble": "^3.12.4",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.2",
+    "vscode": "^1.1.36"
   }
 }
