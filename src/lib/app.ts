@@ -7,26 +7,13 @@ import {Logger} from './logger';
 import * as vscode from 'vscode';
 
 export default class App {
-    private readonly counterInputBox: CounterInputBox;
-    private readonly printStatementGenerator: PrintStatementGenerator;
-    private readonly printStatementCounter: PrintStatementCounter;
-    private readonly printStatementSourceBuilder: PrintStatementSourceBuilder;
-    private readonly textBuffer: TextBuffer;
-    private readonly logger: Logger;
 
-    constructor(printStatementGenerator: PrintStatementGenerator,
-                printStatementCounter: PrintStatementCounter,
-                printStatementSourceBuilder: PrintStatementSourceBuilder,
-                textBuffer: TextBuffer,
-                counterInputBox: CounterInputBox,
-                logger: Logger) {
-        this.counterInputBox = counterInputBox;
-        this.printStatementGenerator = printStatementGenerator;
-        this.printStatementCounter = printStatementCounter;
-        this.printStatementSourceBuilder = printStatementSourceBuilder;
-        this.textBuffer = textBuffer;
-        this.logger = logger;
-    }
+    constructor(private readonly printStatementGenerator: PrintStatementGenerator,
+                private readonly printStatementCounter: PrintStatementCounter,
+                private readonly printStatementSourceBuilder: PrintStatementSourceBuilder,
+                private readonly textBuffer: TextBuffer,
+                private readonly counterInputBox: CounterInputBox,
+                private readonly logger: Logger) {}
 
     putPrintStatement(editor: vscode.TextEditor) {
         return Promise.resolve().then(() => {

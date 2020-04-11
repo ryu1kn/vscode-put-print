@@ -4,13 +4,8 @@ import * as vscode from 'vscode';
 const EXTENSION_NAMESPACE = 'putprint';
 
 export default class AppIntegrator {
-    private readonly app: App;
-    private readonly vscode: any;
 
-    constructor(app: App, vscode: any) {
-        this.app = app;
-        this.vscode = vscode;
-    }
+    constructor(private readonly app: App, private readonly vscode: any) {}
 
     integrate(context: vscode.ExtensionContext) {
         this.registerTextEditorCommands(context);

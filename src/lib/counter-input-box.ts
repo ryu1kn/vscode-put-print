@@ -1,11 +1,8 @@
 import * as vscode from 'vscode';
 
 export default class CounterInputBox {
-    private readonly window: typeof vscode.window;
 
-    constructor(window: typeof vscode.window) {
-        this.window = window;
-    }
+    constructor(private readonly window: typeof vscode.window) {}
 
     async read() {
         const input = await this.window.showInputBox({

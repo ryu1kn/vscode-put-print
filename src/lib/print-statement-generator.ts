@@ -6,11 +6,8 @@ const EXPRESSION_ESCAPE_PLACEHOLDER = '{{selectedExpression|escape}}';
 const EXPRESSION_PLACEHOLDER = '{{selectedExpression}}';
 
 export default class PrintStatementGenerator {
-    private readonly printStatementCounter: PrintStatementCounter;
 
-    constructor(printStatementCounter: PrintStatementCounter) {
-        this.printStatementCounter = printStatementCounter;
-    }
+    constructor(private readonly printStatementCounter: PrintStatementCounter) {}
 
     generate(params: PrintStatementSource) {
         const selectedExpression = params.selectedExpression || '';
